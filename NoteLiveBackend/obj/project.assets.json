@@ -6813,11 +6813,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend.csproj",
+      "projectUniqueName": "C:\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend.csproj",
       "projectName": "NoteLiveBackend",
-      "projectPath": "C:\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend.csproj",
+      "projectPath": "C:\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "C:\\NoteLiveBackend\\NoteLiveBackend\\obj\\",
+      "outputPath": "C:\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
