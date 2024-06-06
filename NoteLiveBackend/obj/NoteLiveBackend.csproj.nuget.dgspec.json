@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend.csproj": {}
+    "C:\\backend_appweb\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend.csproj": {}
   },
   "projects": {
-    "C:\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend.csproj": {
+    "C:\\backend_appweb\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend.csproj",
+        "projectUniqueName": "C:\\backend_appweb\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend.csproj",
         "projectName": "NoteLiveBackend",
-        "projectPath": "C:\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend.csproj",
+        "projectPath": "C:\\backend_appweb\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend\\obj\\",
+        "outputPath": "C:\\backend_appweb\\NoteLiveBackend\\NoteLiveBackend\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
