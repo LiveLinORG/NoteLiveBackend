@@ -1,4 +1,8 @@
-﻿namespace NoteLiveBackend.Room.Application.Internal.CommandServices;
+﻿using NoteLiveBackend.Room.Domain.Exceptions;
+using NoteLiveBackend.Room.Domain.Model.Commands;
+using NoteLiveBackend.Room.Domain.Model.Entities;
+
+namespace NoteLiveBackend.Room.Application.Internal.CommandServices;
 
 public class UploadPDFCommandService
 {
