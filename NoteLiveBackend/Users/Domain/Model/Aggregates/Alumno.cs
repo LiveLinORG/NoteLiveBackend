@@ -6,21 +6,23 @@ public class Alumno
 {
     public int Id { get; private set; }
     public string Name { get; private set; }
-    public long CodigoAlumno { get; private set; }
+    public string LastName { get; private set; }
     public string Correo { get; private set; }
+    public string Password { get; private set; }
 
     protected Alumno()
     {
         this.Name = string.Empty;
-        this.CodigoAlumno = long.MinValue; 
+        this.LastName = string.Empty; 
         this.Correo = string.Empty;
-        
+        this.Password = string.Empty;
     }
 
     public Alumno(CreateAlumnoCommand command)
     {
         this.Name = command.Name;
-        this.CodigoAlumno = command.CodigoAlumno;
+        this.LastName = command.LastName;
         this.Correo = command.Correo;
+        this.Password = command.Password;
     }
 }

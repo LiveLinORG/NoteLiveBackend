@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NoteLiveBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c788f5a5b5c55ae1065ec561806f769d2d09869b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c57014d6ddc6e9cf1fa3a0852e7ee25e1c375aa2")]
 [assembly: System.Reflection.AssemblyProductAttribute("NoteLiveBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NoteLiveBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

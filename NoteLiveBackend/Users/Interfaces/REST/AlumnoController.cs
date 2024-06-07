@@ -25,19 +25,19 @@ public class AlumnoController(
             AlumnoResourceFromEntityAssembler.toResourceFromEntity(result));
     }
 
-    private async Task<ActionResult> GetAlumnoByCodigoAlumno(long codigoAlumno)
+    private async Task<ActionResult> GetAlumnoByCorreoAlumno(string correoAlumno)
     {
-        var getAlumnoByCodigoAlumnoQuery = new GetAlumnoByCodigoAlumnoQuery(codigoAlumno);
-        var result = await alumnoQueryService.Handle(getAlumnoByCodigoAlumnoQuery);
+        var getAlumnoByCorreoAlumnoQuery = new GetAlumnoByCorreoAlumnoQuery(correoAlumno);
+        var result = await alumnoQueryService.Handle(getAlumnoByCorreoAlumnoQuery);
 
         var resource = AlumnoResourceFromEntityAssembler.toResourceFromEntity(result);
         return Ok(resource);
     }
 
-    private async Task<ActionResult> GetAlumnoByNameAndCodigoAlumno(string name, long codigoAlumno)
+    private async Task<ActionResult> GetAlumnoByNameAndCorreoAlumno(string name, string correoAlumno)
     {
-        var getAlumnoByNameAndCodigoAlumnoQuery = new GetAlumnoByNameAndCodigoAlumnoQuery(name, codigoAlumno);
-        var result = await alumnoQueryService.Handle(getAlumnoByNameAndCodigoAlumnoQuery);
+        var getAlumnoByNameAndCorreoAlumnoQuery = new GetAlumnoByNameAndCorreoAlumnoQuery(name, correoAlumno);
+        var result = await alumnoQueryService.Handle(getAlumnoByNameAndCorreoAlumnoQuery);
         var resource = AlumnoResourceFromEntityAssembler.toResourceFromEntity(result);
         return Ok(resource);
     }
@@ -62,12 +62,12 @@ public class AlumnoController(
     [HttpGet]
     public async Task<ActionResult> GetAlumnoFromQuery(
         [FromQuery] string name,
-        [FromQuery] long codigoAlumno,
+        [FromQuery] string correoAlumno,
         [FromQuery] string email = "")
     {
-        if (!string.IsNullOrEmpty(name) && codigoAlumno > 0)
+        if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(correoAlumno))
         {
-            return await GetAlumnoByNameAndCodigoAlumno(name, codigoAlumno);
+            return await GetAlumnoByNameAndCorreoAlumno(name, correoAlumno);
         }
         else if (!string.IsNullOrEmpty(name))
         {
@@ -75,7 +75,7 @@ public class AlumnoController(
         }
         else
         {
-            return await GetAlumnoByCodigoAlumno(codigoAlumno);
+            return await GetAlumnoByCorreoAlumno(correoAlumno);
         }
     }
     
