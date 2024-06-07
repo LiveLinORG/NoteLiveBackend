@@ -13,13 +13,13 @@ public class UploadPDFCommandService
         _roomRepository = roomRepository;
     }
 
-    public void Handle(UploadPDFCommand command)
+    public async Task Handle(UploadPDFCommand command)
     {
-        var room = _roomRepository.GetById(command.RoomId);
+        var room = await _roomRepository.GetById(command.RoomId);
         if (room == null) throw new RoomNotFoundException();
 
-        var pdf = new PDF(command.PdfId, command.PdfContent);
+        var pdf = new PDF(command.PdfId, command.PdfContent, command.RoomId);
         room.UploadPDF(pdf);
-        _roomRepository.Update(room);
+        await _roomRepository.Update(room);
     }
 }

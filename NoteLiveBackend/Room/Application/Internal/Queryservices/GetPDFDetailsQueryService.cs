@@ -16,7 +16,7 @@ public class GetPDFDetailsQueryService
     {
         // Aquí podrías implementar la lógica para obtener los detalles del PDF según el roomId
         // Por ejemplo:
-        // return _pdfRepository.GetPDFDetailsByRoomId(query.RoomId);
+        return _pdfRepository.GetPDFDetailsByRoomId(query.RoomId);
         // Esto es solo un ejemplo, debes adaptarlo a tu lógica y estructura de datos
         throw new NotImplementedException();
     }
@@ -26,5 +26,8 @@ public interface IPDFRepository
 {
     // Define los métodos necesarios para interactuar con las preguntas
     // Por ejemplo:
-    // IEnumerable<Question> GetQuestionsByRoomId(Guid roomId);
+    Task<PDF> GetByRoomId(Guid roomId);
+
+    IEnumerable<Question> GetQuestionsByRoomId(Guid roomId);
+    PDF GetPDFDetailsByRoomId(Guid queryRoomId);
 }

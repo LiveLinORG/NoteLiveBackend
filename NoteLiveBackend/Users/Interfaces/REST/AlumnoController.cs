@@ -50,7 +50,7 @@ public class AlumnoController(
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult> GetAlumnById(int id)
+    public async Task<ActionResult> GetAlumnById(Guid id)
     {
         var getAlumnoByIdQuery = new GetAlumnoByIdQuery(id);
         var result = await alumnoQueryService.Handle(getAlumnoByIdQuery);

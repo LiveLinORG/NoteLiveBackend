@@ -2,5 +2,10 @@
 
 public class GetChatMessagesQuery
 {
-    
+    public Guid RoomId { get; }
+
+    public GetChatMessagesQuery(Guid roomId)
+    {
+        RoomId = roomId;
+    }
 }

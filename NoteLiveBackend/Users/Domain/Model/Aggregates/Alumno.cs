@@ -4,7 +4,7 @@ namespace NoteLiveBackend.Users.Domain.Model.Aggregates;
 
 public class Alumno
 {
-    public int Id { get; private set; }
+    public Guid Id { get; private set; }
     public string Name { get; private set; }
     public long CodigoAlumno { get; private set; }
     public string Correo { get; private set; }

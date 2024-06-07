@@ -1,4 +1,8 @@
-﻿namespace NoteLiveBackend.Room.Application.Internal.CommandServices;
+﻿using NoteLiveBackend.Room.Application.Internal.Outboundservices.acl;
+using NoteLiveBackend.Room.Domain.Exceptions;
+using NoteLiveBackend.Room.Domain.Model.Commands;
+
+namespace NoteLiveBackend.Room.Application.Internal.CommandServices;
 
 public class ExportPDFCommandService
 {
@@ -11,14 +15,21 @@ public class ExportPDFCommandService
         _pdfExportService = pdfExportService;
     }
 
-    public void Handle(ExportPDFCommand command)
+    public async Task HandleAsync(ExportPDFCommand command)
     {
-        var room = _roomRepository.GetById(command.RoomId);
-        if (room == null) throw new RoomNotFoundException();
+        try
+        {
+            var room = await _roomRepository.GetById(command.RoomId);
+            if (room == null) throw new RoomNotFoundException();
 
-        var pdf = room.PDF;
-        if (pdf == null) throw new PDFNotFoundException();
+            var pdf = room.PDF;
+            if (pdf == null) throw new PDFExportException();
 
-        _pdfExportService.Export(pdf, room.Questions);
+            await room.ExportPDF(_pdfExportService); 
+        }
+        catch (Exception ex)
+        {
+            // Manejar la excepción aquí
+        }
     }
 }

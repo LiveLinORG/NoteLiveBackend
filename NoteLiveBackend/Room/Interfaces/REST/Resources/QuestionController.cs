@@ -20,11 +20,12 @@ public class QuestionController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult AskQuestion([FromBody] AskQuestionCommand command)
+    public async Task<IActionResult> AskQuestion([FromBody] AskQuestionCommand command)
     {
-        _askQuestionCommandService.Handle(command);
+        await _askQuestionCommandService.HandleAsync(command);
         return Ok();
     }
+
 
     [HttpGet("{roomId}")]
     public IActionResult GetQuestions(Guid roomId)

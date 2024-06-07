@@ -15,7 +15,7 @@ public class GetQuestionsQueryService
     {
         // Implementa la lógica para obtener las preguntas según el roomId
         // Por ejemplo:
-        // return _questionRepository.GetQuestionsByRoomId(query.RoomId);
+        return _questionRepository.GetQuestionsByRoomId(query.RoomId);
         // Esto es solo un ejemplo, debes adaptarlo a tu lógica y estructura de datos
         throw new NotImplementedException();
     }
@@ -23,7 +23,8 @@ public class GetQuestionsQueryService
 
 public interface IQuestionRepository
 {
-    // Define los métodos necesarios para interactuar con las preguntas
-    // Por ejemplo:
-    // IEnumerable<Question> GetQuestionsByRoomId(Guid roomId);
+
+    Task<IEnumerable<Question>> GetByRoomId(Guid roomId);
+
+    IEnumerable<Question> GetQuestionsByRoomId(Guid queryRoomId);
 }

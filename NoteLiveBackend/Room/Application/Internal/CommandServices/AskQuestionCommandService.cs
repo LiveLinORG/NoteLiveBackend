@@ -13,13 +13,14 @@ public class AskQuestionCommandService
         _roomRepository = roomRepository;
     }
 
-    public void Handle(AskQuestionCommand command)
+    public async Task HandleAsync(AskQuestionCommand command)
     {
-        var room = _roomRepository.GetById(command.RoomId);
+        var room = await _roomRepository.GetById(command.RoomId);
         if (room == null) throw new RoomNotFoundException();
 
-        var question = new Question(command.QuestionId, command.UserId, command.Text);
+        var question = new Question(command.QuestionId, command.UserId, command.RoomId, command.Text);
         room.AskQuestion(question);
-        _roomRepository.Update(room);
+        await _roomRepository.Update(room);
     }
+
 }

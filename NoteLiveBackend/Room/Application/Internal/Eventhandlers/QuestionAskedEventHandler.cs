@@ -1,4 +1,6 @@
-﻿namespace NoteLiveBackend.Room.Application.Internal.Eventhandlers;
+﻿using NoteLiveBackend.Room.Domain.Model.Events;
+
+namespace NoteLiveBackend.Room.Application.Internal.Eventhandlers;
 
 public class QuestionAskedEventHandler
 {

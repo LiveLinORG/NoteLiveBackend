@@ -1,15 +1,27 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NoteLiveBackend.Room.Application.Internal.Queryservices;
 using NoteLiveBackend.Room.Domain.Model.Entities;
+using NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Configuration;
 
 namespace NoteLiveBackend.Room.Infraestructure.Repositories;
 
 public class ChatRepository : IChatRepository
 {
-    private readonly DbContext _context;
+    private readonly AppDbContext _context;
 
-    public ChatRepository(DbContext context)
+    public ChatRepository(AppDbContext context)
     {
         _context = context;
+    }
+
+    public IEnumerable<ChatMessage> GetChatMessagesByRoomId(Guid roomId)
+    {
+        throw new NotImplementedException();
+    }
+
+    Task<Chat> IChatRepository.GetByRoomId(Guid roomId)
+    {
+        throw new NotImplementedException();
     }
 
     public Chat GetByRoomId(Guid roomId)

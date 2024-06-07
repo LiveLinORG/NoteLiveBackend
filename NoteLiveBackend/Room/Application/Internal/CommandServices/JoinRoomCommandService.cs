@@ -1,4 +1,7 @@
-﻿namespace NoteLiveBackend.Room.Application.Internal.CommandServices;
+﻿using NoteLiveBackend.Room.Domain.Exceptions;
+using NoteLiveBackend.Room.Domain.Model.Commands;
+
+namespace NoteLiveBackend.Room.Application.Internal.CommandServices;
 
 public class JoinRoomCommandService
 {
@@ -9,12 +12,12 @@ public class JoinRoomCommandService
         _roomRepository = roomRepository;
     }
 
-    public void Handle(JoinRoomCommand command)
+    public async Task Handle(JoinRoomCommand command)
     {
-        var room = _roomRepository.GetById(command.RoomId);
+        var room = await _roomRepository.GetById(command.RoomId);
         if (room == null) throw new RoomNotFoundException();
 
         room.AddUser(command.UserId);
-        _roomRepository.Update(room);
+        await _roomRepository.Update(room);
     }
 }

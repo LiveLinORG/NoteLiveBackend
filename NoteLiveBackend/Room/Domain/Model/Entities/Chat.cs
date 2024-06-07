@@ -2,6 +2,7 @@
 
 public class Chat
 {
+    public Guid Id { get; private set; } 
     public Guid RoomId { get; private set; }
     public List<ChatMessage> Messages { get; private set; }
     public List<Guid> UserIds { get; private set; }
@@ -21,12 +22,13 @@ public class Chat
 
 public class ChatMessage
 {
+    public Guid Id { get; private set; } // Agrega la propiedad Id
     public string Content { get; private set; }
-    public string UserName { get; private set; }
+    public Guid UserId { get; private set; }
 
-    public ChatMessage(string content, string userName)
+    public ChatMessage(string content, Guid userId)
     {
         Content = content;
-        UserName = userName;
+        UserId = userId;
     }
 }

@@ -1,13 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NoteLiveBackend.Room.Application.Internal.Queryservices;
 using NoteLiveBackend.Room.Domain.Model.Entities;
+using NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Configuration;
 
 namespace NoteLiveBackend.Room.Infraestructure.Repositories;
 
 public class PDFRepository : IPDFRepository
 {
-    private readonly DbContext _context;
+    private readonly AppDbContext _context;
 
-    public PDFRepository(DbContext context)
+    public PDFRepository(AppDbContext context)
     {
         _context = context;
     }
@@ -15,6 +17,16 @@ public class PDFRepository : IPDFRepository
     public PDF GetByRoomId(Guid roomId)
     {
         return _context.PDFs.FirstOrDefault(p => p.RoomId == roomId);
+    }
+
+    public IEnumerable<Question> GetQuestionsByRoomId(Guid roomId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public PDF GetPDFDetailsByRoomId(Guid queryRoomId)
+    {
+        throw new NotImplementedException();
     }
 
     public void Add(PDF pdf)
@@ -27,5 +39,10 @@ public class PDFRepository : IPDFRepository
     {
         _context.PDFs.Update(pdf);
         _context.SaveChanges();
+    }
+
+    Task<PDF> IPDFRepository.GetByRoomId(Guid roomId)
+    {
+        throw new NotImplementedException();
     }
 }

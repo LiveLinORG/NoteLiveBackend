@@ -18,9 +18,11 @@ public class CreateRoomCommandService
 }
 public interface IRoomRepository
 {
-    Domain.Model.Entities.Room GetById(Guid id);
+    Task<Domain.Model.Entities.Room> GetById(Guid roomId);
+
     IEnumerable<Domain.Model.Entities.Room> GetAll();
     void Add(Domain.Model.Entities.Room room);
-    void Update(Domain.Model.Entities.Room room);
+    Task Update(Domain.Model.Entities.Room room); // Cambiar el tipo de retorno a Task
     void Remove(Domain.Model.Entities.Room room);
+
 }

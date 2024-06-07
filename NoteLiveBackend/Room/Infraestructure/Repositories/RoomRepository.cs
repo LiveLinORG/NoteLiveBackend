@@ -13,7 +13,7 @@ public class RoomRepository : IRoomRepository
         _context = context;
     }
 
-    public Domain.Model.Entities.Room GetById(Guid id)
+    public async Task<Domain.Model.Entities.Room> GetById(Guid id)
     {
         var room = _context.Rooms.SingleOrDefault(r => r.Id == id);
 
@@ -37,10 +37,10 @@ public class RoomRepository : IRoomRepository
         _context.SaveChanges();
     }
 
-    public void Update(Domain.Model.Entities.Room room)
+    public async Task Update(Domain.Model.Entities.Room room)
     {
-        _context.Entry(room).State = EntityState.Modified;
-        _context.SaveChanges();
+        _context.Rooms.Update(room);
+        await _context.SaveChangesAsync(); // Guardar los cambios asincrónicamente
     }
 
     public void Remove(Domain.Model.Entities.Room room)
