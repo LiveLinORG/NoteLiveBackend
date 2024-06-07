@@ -11,7 +11,7 @@ public class AlumnoCommandService(IAlumnoRepository alumnoRepository,
 {
     public async Task<Alumno> Handle(CreateAlumnoCommand command)
     {
-        var alumno = await alumnoRepository.FindByIdAsync(command.id);
+        var alumno = await alumnoRepository.FindByAlumnoCodigoAsync(command.CodigoAlumno);
         if (alumno != null)
             throw new
                 Exception("Alumn with Code Alumn already exists");

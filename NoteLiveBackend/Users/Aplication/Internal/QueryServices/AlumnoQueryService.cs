@@ -7,9 +7,9 @@ namespace NoteLiveBackend.Users.Aplication.Internal.QueryServices;
 
 public class AlumnoQueryService(IAlumnoRepository alumnoRepository) : IAlumnoQueryService
 {
-    public async Task<Alumno> Handle(GetAlumnoByCorreoAlumnoQuery query)
+    public async Task<Alumno> Handle(GetAlumnoByCodigoAlumnoQuery query)
     {
-        return await alumnoRepository.FindByAlumnoCorreoAsync(query.Correo);
+        return await alumnoRepository.FindByAlumnoCodigoAsync(query.alumnoCode);
     }
 
     public async Task<IEnumerable<Alumno>> Handle(GetAlumnoByNameQuery query)
@@ -17,9 +17,9 @@ public class AlumnoQueryService(IAlumnoRepository alumnoRepository) : IAlumnoQue
         return await alumnoRepository.FindByNameAlumnoAsync(query.Name);
     }
 
-    public async Task<Alumno> Handle(GetAlumnoByNameAndCorreoAlumnoQuery query)
+    public async Task<Alumno> Handle(GetAlumnoByNameAndCodigoAlumnoQuery query)
     {
-        return await alumnoRepository.FindByNameAndCorreoAlumnoAsync(query.Name, query.Correo);
+        return await alumnoRepository.FindByNameAndCodigoAlumnoAsync(query.Name, query.CodigoAlumno);
     }
 
     public async Task<Alumno> Handle(GetAlumnoByIdQuery query)

@@ -6,5 +6,5 @@ namespace NoteLiveBackend.Users.Interfaces.REST.Transform;
 public static class CreateAlumnoCommandFromResourceAssembler
 {
     public static CreateAlumnoCommand ToCommandFromResource(CreateAlumnoResource resource) =>
-        new CreateAlumnoCommand(resource.id,resource.name, resource.lastname, resource.correo,resource.password);
+        new CreateAlumnoCommand(resource.name, resource.codigoAlumno, resource.email);
 }
