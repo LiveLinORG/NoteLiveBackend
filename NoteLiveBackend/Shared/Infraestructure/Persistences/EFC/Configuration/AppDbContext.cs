@@ -25,8 +25,10 @@ public class AppDbContext : DbContext
         builder.Entity<Alumno>().HasKey(a => a.Id);
         builder.Entity<Alumno>().Property(a => a.Id).IsRequired();
         builder.Entity<Alumno>().Property(a => a.Name).IsRequired();
-        builder.Entity<Alumno>().Property(a => a.CodigoAlumno).IsRequired();
+        builder.Entity<Alumno>().Property(a => a.LastNames).IsRequired();
         builder.Entity<Alumno>().Property(a => a.Correo).IsRequired();
+        builder.Entity<Alumno>().Property(a => a.Password).IsRequired();
+
         builder.UseSnakeCaseNamingConvention();
 
 

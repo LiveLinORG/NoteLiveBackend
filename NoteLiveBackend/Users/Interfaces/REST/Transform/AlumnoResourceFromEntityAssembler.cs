@@ -7,5 +7,5 @@ namespace NoteLiveBackend.Users.Interfaces.REST.Transform;
 public static class AlumnoResourceFromEntityAssembler
 {
     public static AlumnoResource toResourceFromEntity(Alumno entity) => new
-        AlumnoResource(entity.Id, entity.Name, entity.CodigoAlumno, entity.Correo);
+        AlumnoResource(entity.Id, entity.Name, entity.LastNames, entity.Correo,entity.Password);
 }

@@ -6,6 +6,6 @@ namespace NoteLiveBackend.Users.Domain.Repositories;
 public interface IAlumnoRepository : IBaseRepository<Alumno>
 {
     Task<IEnumerable<Alumno>> FindByNameAlumnoAsync(string Name);
-    Task<Alumno?> FindByAlumnoCodigoAsync(long codigoAlumno);
-    Task<Alumno?> FindByNameAndCodigoAlumnoAsync(string Name, long codigoAlumno);
+    Task<Alumno?> FindByAlumnoCorreoAsync(string Correo);
+    Task<Alumno?> FindByNameAndCorreoAlumnoAsync(string Name, string Correo);
 }
