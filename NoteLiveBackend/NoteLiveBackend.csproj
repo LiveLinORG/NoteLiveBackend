@@ -20,4 +20,16 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Rooms\Aplication\" />
+      <Folder Include="Rooms\Domain\Model\Commands\" />
+      <Folder Include="Rooms\Domain\Model\Entitites\" />
+      <Folder Include="Rooms\Domain\Model\Queries\" />
+      <Folder Include="Rooms\Domain\Model\ValueObjects\" />
+      <Folder Include="Rooms\Domain\Repositories\" />
+      <Folder Include="Rooms\Domain\Services\" />
+      <Folder Include="Rooms\Infrastructure\" />
+      <Folder Include="Rooms\Interfaces\" />
+    </ItemGroup>
+
 </Project>
