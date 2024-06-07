@@ -1,6 +1,10 @@
-﻿namespace NoteLiveBackend.Users.Interfaces.REST.Transform;
+﻿using NoteLiveBackend.Users.Domain.Model.Commands;
+using NoteLiveBackend.Users.Interfaces.REST.Resource;
 
-public class CreateAlumnoCommandFromResourceAssembler
+namespace NoteLiveBackend.Users.Interfaces.REST.Transform;
+
+public static class CreateAlumnoCommandFromResourceAssembler
 {
-    
+    public static CreateAlumnoCommand ToCommandFromResource(CreateAlumnoResource resource) =>
+        new CreateAlumnoCommand(resource.name, resource.codigoAlumno, resource.email);
 }

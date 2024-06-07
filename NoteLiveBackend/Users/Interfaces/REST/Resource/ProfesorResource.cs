@@ -1,6 +1,3 @@
 ﻿namespace NoteLiveBackend.Users.Interfaces.REST.Resource;
 
-public class ProfesorResource
-{
-    
-}
+public record ProfesorResource(int id,string name,long codigoprofesor,string email);

@@ -1,6 +1,30 @@
-﻿namespace NoteLiveBackend.Users.Aplication.Internal.QueryServices;
+﻿using NoteLiveBackend.Users.Domain.Model.Aggregates;
+using NoteLiveBackend.Users.Domain.Model.Queries;
+using NoteLiveBackend.Users.Domain.Repositories;
+using NoteLiveBackend.Users.Domain.Services;
 
-public class AlumnoQueryService
+namespace NoteLiveBackend.Users.Aplication.Internal.QueryServices;
+
+public class AlumnoQueryService(IAlumnoRepository alumnoRepository) : IAlumnoQueryService
 {
+    public async Task<Alumno> Handle(GetAlumnoByCodigoAlumnoQuery query)
+    {
+        return await alumnoRepository.FindByAlumnoCodigoAsync(query.alumnoCode);
+    }
+
+    public async Task<IEnumerable<Alumno>> Handle(GetAlumnoByNameQuery query)
+    {
+        return await alumnoRepository.FindByNameAlumnoAsync(query.Name);
+    }
+
+    public async Task<Alumno> Handle(GetAlumnoByNameAndCodigoAlumnoQuery query)
+    {
+        return await alumnoRepository.FindByNameAndCodigoAlumnoAsync(query.Name, query.CodigoAlumno);
+    }
+
+    public async Task<Alumno> Handle(GetAlumnoByIdQuery query)
+    {
+        return await alumnoRepository.FindByIdAsync(query.Id);
+    }
     
 }

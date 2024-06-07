@@ -1,6 +1,3 @@
 ﻿namespace NoteLiveBackend.Users.Interfaces.REST.Resource;
 
-public class CreateAlumnoResource
-{
-    
-}
+public record CreateAlumnoResource(string name,long codigoAlumno,string email);

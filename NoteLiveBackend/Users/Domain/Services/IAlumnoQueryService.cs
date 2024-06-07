@@ -9,4 +9,5 @@ public interface IAlumnoQueryService
     Task<Alumno> Handle(GetAlumnoByNameAndCodigoAlumnoQuery query);
     Task<Alumno> Handle(GetAlumnoByCodigoAlumnoQuery query);
 
+    Task<Alumno> Handle(GetAlumnoByIdQuery query);
 }
