@@ -1,3 +1,3 @@
 ﻿namespace NoteLiveBackend.Users.Domain.Model.Queries;
 
-public record GetAlumnoByIdQuery(int Id);
+public record GetAlumnoByIdQuery(Guid Id);

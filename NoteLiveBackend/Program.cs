@@ -1,4 +1,9 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using NoteLiveBackend.Shared.Domain.Repositories;
 using NoteLiveBackend.Shared.Infraestructure.Interfaces.ASP.Configuration;
 using NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Configuration;
@@ -12,7 +17,6 @@ using NoteLiveBackend.Users.Infraestructure.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
 builder.Services.AddControllers(options =>
 {
@@ -22,39 +26,48 @@ builder.Services.AddControllers(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//ADD DATABASE CONNECTION
+// ADD DATABASE CONNECTION
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-//CONFIGURE DATABASE CONTEXT AND LOGGING LEVELS
+// CONFIGURE DATABASE CONTEXT AND LOGGING LEVELS
 builder.Services.AddDbContext<AppDbContext>(
     options =>
     {
-        if(connectionString!=null)
+        if(connectionString != null)
+        {
             if (builder.Environment.IsDevelopment())
+            {
                 options.UseMySQL(connectionString)
                     .LogTo(Console.WriteLine, LogLevel.Information)
                     .EnableSensitiveDataLogging()
                     .EnableDetailedErrors();
+            }
             else if (builder.Environment.IsProduction())
+            {
                 options.UseMySQL(connectionString)
                     .LogTo(Console.WriteLine, LogLevel.Error)
                     .EnableSensitiveDataLogging()
                     .EnableDetailedErrors();
+            }
+        }
     });
 
 // CONFIGURE LOWERCASE URLS 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
+// ADD CONTROLLERS
 builder.Services.AddControllers(options =>
 {
     options.Conventions.Add(new KebabCaseRouteNamingConvention());
 });
 
+// ADD REPOSITORIES AND SERVICES
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAlumnoRepository, AlumnoRepository>();
 builder.Services.AddScoped<IAlumnoCommandService, AlumnoCommandService>();
 builder.Services.AddScoped<IAlumnoQueryService, AlumnoQueryService>();
 
+// Register additional repositories and services here
 
 var app = builder.Build();
 
