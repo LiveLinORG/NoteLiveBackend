@@ -8,4 +8,6 @@ public interface IProfesorQueryService
     Task<IEnumerable<Profesor>> Handle(GetProfesorByNameQuery query);
     Task<Profesor> Handle(GetProfesorByNameAndCodigoProfesorQuery query);
     Task<Profesor> Handle(GetProfesorByCodigoProfesorQuery query);
+
+    Task<Profesor> Handle(GetProfesorByIdQuery query);
 }

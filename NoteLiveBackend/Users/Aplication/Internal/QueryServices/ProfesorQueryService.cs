@@ -21,5 +21,10 @@ public class ProfesorQueryService(IProfesorRepository profesorRepository) : IPro
     {
         return await profesorRepository.FindByNameAndProfesorCodigoAsync(query.Name, query.CodigoProfesor);
     }
+
+    public async Task<Profesor> Handle(GetProfesorByIdQuery query)
+    {
+        return await profesorRepository.FindByIdAsync(query.id);
+    }
     
 }

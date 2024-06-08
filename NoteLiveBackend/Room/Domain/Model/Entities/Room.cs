@@ -8,10 +8,11 @@ public class Room
     public string Name { get; private set; }
     public Guid ProfessorId { get; private set; }
     public List<Question> Questions { get; private set; }
-    public List<Guid> UserIds { get; private set; }
 
     // Propiedad PDF actualizada
     public PDF PDF { get; private set; }
+
+    public List<RoomUser> RoomUsers { get; set; }
 
     public Room(Guid id, string name, Guid professorId)
     {
@@ -19,7 +20,7 @@ public class Room
         Name = name;
         ProfessorId = professorId;
         Questions = new List<Question>();
-        UserIds = new List<Guid>();
+        RoomUsers = new List<RoomUser>(); // Inicializa la lista de RoomUser
     }
 
     // Método para cargar un PDF en la sala
@@ -37,9 +38,13 @@ public class Room
     // Método para agregar un usuario a la sala
     public void AddUser(Guid userId)
     {
-        UserIds.Add(userId);
+        // Verifica si el usuario ya está asociado a la sala
+        if (!RoomUsers.Any(ru => ru.UserId == userId))
+        {
+            // Crea una nueva instancia de RoomUser y agrégala a la lista RoomUsers
+            RoomUsers.Add(new RoomUser { RoomId = Id, UserId = userId });
+        }
     }
-
     // Método para exportar el PDF de la sala utilizando el servicio de exportación PDF
     public async Task ExportPDF(IPDFExportService pdfExportService)
     {
