@@ -1,10 +1,14 @@
-﻿namespace NoteLiveBackend.Room.Domain.Model.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace NoteLiveBackend.Room.Domain.Model.Entities;
 
 public class Chat
 {
     public Guid Id { get; private set; } 
     public Guid RoomId { get; private set; }
     public List<ChatMessage> Messages { get; private set; }
+    [NotMapped] // Esta propiedad no será mapeada a la base de datos
+
     public List<Guid> UserIds { get; private set; }
 
     public Chat(Guid roomId)

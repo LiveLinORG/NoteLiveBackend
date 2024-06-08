@@ -16,7 +16,6 @@ namespace NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Configuration
         public DbSet<Chat> Chats { get; set; } 
 
         public DbSet<User> Users { get; set; }
-        public DbSet<RoomUser> RoomUsers { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -75,16 +74,19 @@ namespace NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Configuration
             builder.Entity<User>().Property(u => u.Id).IsRequired();
             builder.Entity<User>().Property(u => u.Name).IsRequired();
             
-            // Configuración de la entidad RoomUser
-            builder.Entity<RoomUser>().ToTable("RoomUsers");
-            builder.Entity<RoomUser>().HasKey(ru => new { ru.RoomId, ru.UserId });
-            builder.Entity<RoomUser>().HasOne(ru => ru.Room)
-                .WithMany(r => r.RoomUsers)
-                .HasForeignKey(ru => ru.RoomId);
-            builder.Entity<RoomUser>().HasOne(ru => ru.User)
+            builder.Entity<Question>()
+                .HasOne(q => q.User)
                 .WithMany()
-                .HasForeignKey(ru => ru.UserId);
-            
+                .HasForeignKey(q => q.UserId)
+                .HasConstraintName("FK_Question_User");
+
+            builder.Entity<Question>()
+                .HasOne(q => q.Room)
+                .WithMany()
+                .HasForeignKey(q => q.RoomId)
+                .HasConstraintName("FK_Question_Room");
+
+
             builder.UseSnakeCaseNamingConvention();
         }
     }

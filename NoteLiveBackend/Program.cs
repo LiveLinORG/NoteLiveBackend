@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using NoteLiveBackend.Room.Infraestructure.Repositories;
 using NoteLiveBackend.Shared.Domain.Repositories;
 using NoteLiveBackend.Shared.Infraestructure.Interfaces.ASP.Configuration;
 using NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Configuration;
@@ -66,6 +67,13 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAlumnoRepository, AlumnoRepository>();
 builder.Services.AddScoped<IAlumnoCommandService, AlumnoCommandService>();
 builder.Services.AddScoped<IAlumnoQueryService, AlumnoQueryService>();
+builder.Services.AddScoped<IProfesorRepository, ProfesorRepository>();
+builder.Services.AddScoped<IProfesorCommandService, ProfesorCommandService>();
+builder.Services.AddScoped<IProfesorQueryService, ProfesorQueryService>();
+builder.Services.AddScoped<ChatRepository>();
+
+
+
 // Register additional repositories and services here
 
 var app = builder.Build();

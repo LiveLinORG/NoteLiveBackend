@@ -7,11 +7,12 @@ using NoteLiveBackend.Room.Domain.Model.Queries;
 namespace NoteLiveBackend.Room.Interfaces.REST.Resources;
 
 [ApiController]
-[Microsoft.AspNetCore.Components.Route("api/[controller]")]
+[Route("api/[controller]")]
 public class QuestionController : ControllerBase
 {
     private readonly AskQuestionCommandService _askQuestionCommandService;
     private readonly GetQuestionsQueryService _getQuestionsQueryService;
+
 
     public QuestionController(AskQuestionCommandService askQuestionCommandService, GetQuestionsQueryService getQuestionsQueryService)
     {

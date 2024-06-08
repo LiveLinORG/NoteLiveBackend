@@ -7,7 +7,7 @@ using RoomCommands = NoteLiveBackend.Room.Domain.Model.Commands;
 
 namespace NoteLiveBackend.Room.Interfaces.REST.Resources;
 [ApiController]
-[Microsoft.AspNetCore.Components.Route("api/[controller]")]
+[Route("api/[controller]")]
 public class RoomController : ControllerBase
 {
     private readonly CreateRoomCommandService _createRoomCommandService;

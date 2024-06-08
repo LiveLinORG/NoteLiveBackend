@@ -11,6 +11,8 @@ public class Question
     public int Likes { get; private set; }
 
     public User User { get; set; } // Agrega la propiedad de navegación User
+    public Room Room { get; set; } // Propiedad de navegación con la entidad Room
+
 
     public Question(Guid id, Guid userId, Guid roomId, string text) // Modifica el constructor para incluir RoomId
     {
