@@ -66,7 +66,6 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAlumnoRepository, AlumnoRepository>();
 builder.Services.AddScoped<IAlumnoCommandService, AlumnoCommandService>();
 builder.Services.AddScoped<IAlumnoQueryService, AlumnoQueryService>();
-
 // Register additional repositories and services here
 
 var app = builder.Build();
