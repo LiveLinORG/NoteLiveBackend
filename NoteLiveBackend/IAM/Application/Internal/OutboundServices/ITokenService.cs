@@ -1,4 +1,6 @@
 ﻿
+using NoteLiveBackend.IAM.Domain.Model.Aggregates;
+
 /**
  * <summary>
  *  The token service interface

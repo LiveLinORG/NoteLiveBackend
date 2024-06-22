@@ -1,5 +1,7 @@
 ﻿
 
+using NoteLiveBackend.IAM.Domain.Model.Aggregates;
+
 public class UserResourceFromEntityAssembler
 {
     public static UserResource ToResourceFromEntity(User user)

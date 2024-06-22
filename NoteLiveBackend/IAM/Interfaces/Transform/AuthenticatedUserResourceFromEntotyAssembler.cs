@@ -1,5 +1,7 @@
 ﻿
 
+using NoteLiveBackend.IAM.Domain.Model.Aggregates;
+
 public class AuthenticatedUserResourceFromEntotyAssembler
 {
     public static AuthenticatedUserResource ToResourceFromEntity(

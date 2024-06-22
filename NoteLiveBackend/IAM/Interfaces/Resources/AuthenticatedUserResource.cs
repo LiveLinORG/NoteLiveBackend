@@ -1,2 +1,2 @@
 ﻿
-public record AuthenticatedUserResource(int Id, string Usernam, string Token);
+public record AuthenticatedUserResource(Guid Id, string Usernam, string Token);

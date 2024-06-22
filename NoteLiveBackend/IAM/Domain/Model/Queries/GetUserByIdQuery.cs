@@ -1,2 +1,2 @@
 ﻿
-public record GetUserByIdQuery(int Id);
+public record GetUserByIdQuery(Guid Id);

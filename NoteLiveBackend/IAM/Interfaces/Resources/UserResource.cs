@@ -1,2 +1,2 @@
 ﻿
-public record UserResource(int Id, string Username);
+public record UserResource(Guid Id, string Username);

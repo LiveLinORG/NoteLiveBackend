@@ -7,6 +7,7 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
+using NoteLiveBackend.IAM.Domain.Model.Aggregates;
 
 
 public class TokenService(IOptions<TokenSettings> tokenSettings) : ITokenService
