@@ -1,4 +1,4 @@
-﻿using BCryptNet = Org.BouncyCastle.Crypto.Generators.BCrypt.Net.BCrypt;
+﻿using BCryptNet = BCrypt.Net.BCrypt;
 
 
 public class HashingService : IHashingService
