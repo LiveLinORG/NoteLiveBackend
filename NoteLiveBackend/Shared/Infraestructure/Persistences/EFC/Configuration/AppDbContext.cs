@@ -2,7 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using NoteLiveBackend.Room.Domain.Model.Entities;
 using NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Configuration.Extensions;
-using NoteLiveBackend.Users.Domain.Model.Aggregates;
+using NoteLiveBackend.IAM.Domain.Model.Aggregates;
+using User = NoteLiveBackend.IAM.Domain.Model.Aggregates.User;
 
 namespace NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Configuration
 {
@@ -30,22 +31,34 @@ namespace NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Configuration
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<Alumno>().ToTable("Alumno");
+            /*builder.Entity<Alumno>().ToTable("Alumno");
             builder.Entity<Alumno>().HasKey(a => a.Id);
             builder.Entity<Alumno>().Property(a => a.Id).IsRequired();
             builder.Entity<Alumno>().Property(a => a.Name).IsRequired();
             builder.Entity<Alumno>().Property(a => a.LastName).IsRequired();
             builder.Entity<Alumno>().Property(a => a.Correo).IsRequired();
             builder.Entity<Alumno>().Property(a => a.Password).IsRequired();
-            
+
             builder.Entity<Profesor>().ToTable("Profesor");
             builder.Entity<Profesor>().HasKey(a => a.Id);
             builder.Entity<Profesor>().Property(a => a.Id).IsRequired();
             builder.Entity<Profesor>().Property(a => a.Name).IsRequired();
             builder.Entity<Profesor>().Property(a => a.CodigoProfesor).IsRequired();
             builder.Entity<Profesor>().Property(a => a.Correo).IsRequired();
+            */
 
-            
+            builder.Entity<User>().ToTable("Usuario");
+            builder.Entity<User>().HasKey(a => a.Id);
+            builder.Entity<User>().Property(a => a.Id).IsRequired();
+            builder.Entity<User>().Property(a => a.Username).IsRequired();
+            builder.Entity<User>().Property(a => a.Password).IsRequired();
+            builder.Entity<User>().Property(a => a.Role).IsRequired();
+
+            builder.Entity<User>().Property(a => a.Name).IsRequired();
+            builder.Entity<User>().Property(a => a.LastName).IsRequired();
+            builder.Entity<User>().Property(a => a.Correo).IsRequired();
+            builder.Entity<User>().Property(a => a.CodigoProfesor).IsRequired();
+
             // Configuración de la entidad Question
             builder.Entity<Question>().ToTable("Questions");
             builder.Entity<Question>().HasKey(q => q.Id);

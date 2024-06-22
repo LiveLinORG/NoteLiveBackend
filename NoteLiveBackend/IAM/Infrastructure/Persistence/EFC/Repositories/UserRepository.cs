@@ -40,6 +40,11 @@ public class UserRepository : BaseRepository<User>, IUserRepository
         return await Context.Set<User>().ToListAsync();
     }
 
+    public async Task<User?> GetByIdAsync(Guid userId)
+    {
+        return await Context.Set<User>().FindAsync(userId);
+    }
+    
     public async Task<User?> FindByNameAndCorreoAsync(string name, string correo)
     {
         return await Context.Set<User>().FirstOrDefaultAsync(u => u.Name == name && u.Correo == correo);
