@@ -14,7 +14,7 @@ namespace NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Configuration
        
         public DbSet<Question> Questions { get; set; }
         public DbSet<PDF> PDFs { get; set; } 
-        public DbSet<Chat> Chats { get; set; } 
+        public DbSet<Chat?> Chats { get; set; } 
 
         public DbSet<User> Users { get; set; }
 

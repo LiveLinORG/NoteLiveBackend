@@ -446,3 +446,5 @@ E:\2024 CICLO 5\Aplicaciones Web\NoteLiveWebApp\NoteLiveBackend\NoteLiveBackend\
 E:\2024 CICLO 5\Aplicaciones Web\NoteLiveWebApp\NoteLiveBackend\NoteLiveBackend\bin\Debug\net8.0\zh-CN\Humanizer.resources.dll
 E:\2024 CICLO 5\Aplicaciones Web\NoteLiveWebApp\NoteLiveBackend\NoteLiveBackend\bin\Debug\net8.0\zh-Hans\Humanizer.resources.dll
 E:\2024 CICLO 5\Aplicaciones Web\NoteLiveWebApp\NoteLiveBackend\NoteLiveBackend\bin\Debug\net8.0\zh-Hant\Humanizer.resources.dll
+E:\2024 CICLO 5\Aplicaciones Web\NoteLiveWebApp\NoteLiveBackend\NoteLiveBackend\bin\Debug\net8.0\Newtonsoft.Json.dll
+E:\2024 CICLO 5\Aplicaciones Web\NoteLiveWebApp\NoteLiveBackend\NoteLiveBackend\bin\Debug\net8.0\System.Net.WebSockets.WebSocketProtocol.dll

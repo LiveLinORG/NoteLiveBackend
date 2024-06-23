@@ -6,7 +6,7 @@ namespace NoteLiveBackend.Room.Application.Internal.Queryservices;
 public interface IChatRepository
 {
     IEnumerable<ChatMessage> GetChatMessagesByRoomId(Guid roomId);
-    Task<Chat> GetByRoomId(Guid roomId);
+    Task<Chat?> GetByRoomId(Guid roomId);
 }
 
 public class GetChatMessagesQueryService

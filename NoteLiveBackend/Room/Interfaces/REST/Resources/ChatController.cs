@@ -1,25 +1,32 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using NoteLiveBackend.Room.Application.Internal.Queryservices;
 using NoteLiveBackend.Room.Domain.Model.Queries;
+using NoteLiveBackend.Room.Interfaces.WebSocket;
 
 namespace NoteLiveBackend.Room.Interfaces.REST.Resources;
-
 [ApiController]
 [Route("api/[controller]")]
 public class ChatController : ControllerBase
 {
-    private readonly GetChatMessagesQueryService _getChatMessagesQueryService;
+    private readonly IHubContext<ChatHub> _hubContext;
 
-    public ChatController(GetChatMessagesQueryService getChatMessagesQueryService)
+    public ChatController(IHubContext<ChatHub> hubContext)
     {
-        _getChatMessagesQueryService = getChatMessagesQueryService;
+        _hubContext = hubContext;
     }
 
-    [HttpGet("{roomId}")]
-    public IActionResult GetChatMessages(Guid roomId)
+    [HttpPost("join")]
+    public IActionResult JoinRoom([FromBody] JoinRoomRequest request)
     {
-        var query = new GetChatMessagesQuery(roomId);
-        var messages = _getChatMessagesQueryService.Handle(query);
-        return Ok(messages);
+
+
+        return Ok(new { message = "Successfully joined the room." });
+    }
+
+    public class JoinRoomRequest
+    {
+        public string RoomId { get; set; }
+        public string UserId { get; set; }
     }
 }

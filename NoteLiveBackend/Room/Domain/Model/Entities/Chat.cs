@@ -4,11 +4,11 @@ namespace NoteLiveBackend.Room.Domain.Model.Entities;
 
 public class Chat
 {
-    public Guid Id { get; private set; } 
+    public Guid Id { get; private set; }
     public Guid RoomId { get; private set; }
     public List<ChatMessage> Messages { get; private set; }
-    [NotMapped] // Esta propiedad no será mapeada a la base de datos
-
+        
+    [NotMapped]
     public List<Guid> UserIds { get; private set; }
 
     public Chat(Guid roomId)
@@ -26,7 +26,7 @@ public class Chat
 
 public class ChatMessage
 {
-    public Guid Id { get; private set; } // Agrega la propiedad Id
+    public Guid Id { get; private set; }
     public string Content { get; private set; }
     public Guid UserId { get; private set; }
 

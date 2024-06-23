@@ -12,6 +12,7 @@ using NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Configuration;
 using NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Repositories;
 using NoteLiveBackend.IAM.Infrastructure.Tokens.JWT.Services; 
 using NoteLiveBackend.IAM.Application.Internal.OutboundServices;
+using NoteLiveBackend.Room.Interfaces.WebSocket;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,7 +25,10 @@ builder.Services.AddControllers(options =>
 });
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "My API", Version = "v1" });
+});
 
 // ADD DATABASE CONNECTION
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -60,8 +64,22 @@ builder.Services.AddControllers(options =>
 {
     options.Conventions.Add(new KebabCaseRouteNamingConvention());
 });
+// ADD CORS
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(corsPolicyBuilder =>
+    {
+        corsPolicyBuilder.WithOrigins("http://localhost:8080", "http://190.239.59.223:44353", "http://190.239.59.223:8080","http://192.168.1.34:8080/professorSession"
+                ,"http://192.168.1.34:8080","http://192.168.1.34:8080/studentSession")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
 
 // ADD REPOSITORIES AND SERVICES
+builder.Services.AddSignalR();
+
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddScoped<ChatRepository>();
@@ -88,10 +106,15 @@ using (var scope = app.Services.CreateScope())
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+    });
 }
 
 app.UseHttpsRedirection();
+app.MapHub<ChatHub>("/chatHub");
+app.UseCors();
 
 app.UseAuthorization();
 

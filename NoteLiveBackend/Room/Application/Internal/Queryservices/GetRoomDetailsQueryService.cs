@@ -1,5 +1,6 @@
 ﻿using NoteLiveBackend.IAM.Domain.Repositories;
 using NoteLiveBackend.Room.Application.Internal.CommandServices;
+using NoteLiveBackend.Room.Domain.Model.Entities;
 using NoteLiveBackend.Room.Domain.Model.Queries;
 using NoteLiveBackend.Room.Interfaces.REST.Transform;
 

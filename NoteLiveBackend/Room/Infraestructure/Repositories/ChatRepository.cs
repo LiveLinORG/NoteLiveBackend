@@ -19,23 +19,18 @@ public class ChatRepository : IChatRepository
         throw new NotImplementedException();
     }
 
-    Task<Chat> IChatRepository.GetByRoomId(Guid roomId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Chat GetByRoomId(Guid roomId)
+    public async Task<Chat?> GetByRoomId(Guid roomId)
     {
         return _context.Chats.FirstOrDefault(c => c.RoomId == roomId);
     }
 
-    public void Add(Chat chat)
+    public void Add(Chat? chat)
     {
         _context.Chats.Add(chat);
         _context.SaveChanges();
     }
 
-    public void Update(Chat chat)
+    public void Update(Chat? chat)
     {
         _context.Chats.Update(chat);
         _context.SaveChanges();
