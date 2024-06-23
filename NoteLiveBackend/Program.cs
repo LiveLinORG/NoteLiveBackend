@@ -1,19 +1,18 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using NoteLiveBackend.IAM.Application.Internal.CommandServices;
+using NoteLiveBackend.IAM.Application.Internal.QueryServices;
+using NoteLiveBackend.IAM.Domain.Repositories;
+using NoteLiveBackend.IAM.Domain.Services;
+using NoteLiveBackend.IAM.Infrastructure.Persistence.EFC.Repositories;
 using NoteLiveBackend.Room.Infraestructure.Repositories;
 using NoteLiveBackend.Shared.Domain.Repositories;
 using NoteLiveBackend.Shared.Infraestructure.Interfaces.ASP.Configuration;
 using NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Configuration;
 using NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Repositories;
-using NoteLiveBackend.Users.Aplication.Internal.CommandServices;
-using NoteLiveBackend.Users.Aplication.Internal.QueryServices;
-using NoteLiveBackend.Users.Domain.Repositories;
-using NoteLiveBackend.Users.Domain.Services;
-using NoteLiveBackend.Users.Infraestructure.Repositories;
+using NoteLiveBackend.IAM.Infrastructure.Tokens.JWT.Services; 
+using NoteLiveBackend.IAM.Application.Internal.OutboundServices;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,13 +63,12 @@ builder.Services.AddControllers(options =>
 
 // ADD REPOSITORIES AND SERVICES
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IAlumnoRepository, AlumnoRepository>();
-builder.Services.AddScoped<IAlumnoCommandService, AlumnoCommandService>();
-builder.Services.AddScoped<IAlumnoQueryService, AlumnoQueryService>();
-builder.Services.AddScoped<IProfesorRepository, ProfesorRepository>();
-builder.Services.AddScoped<IProfesorCommandService, ProfesorCommandService>();
-builder.Services.AddScoped<IProfesorQueryService, ProfesorQueryService>();
+
 builder.Services.AddScoped<ChatRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+builder.Services.AddScoped<IUserQueryServices, UserQueryService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 
 

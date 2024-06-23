@@ -1,7 +1,7 @@
-﻿using NoteLiveBackend.Room.Application.Internal.CommandServices;
+﻿using NoteLiveBackend.IAM.Domain.Repositories;
+using NoteLiveBackend.Room.Application.Internal.CommandServices;
 using NoteLiveBackend.Room.Domain.Model.Queries;
 using NoteLiveBackend.Room.Interfaces.REST.Transform;
-using NoteLiveBackend.Users.Domain.Repositories;
 
 namespace NoteLiveBackend.Room.Application.Internal.Queryservices;
 
@@ -11,8 +11,7 @@ public class GetRoomDetailsQueryService
         private readonly IQuestionRepository _questionRepository;
         private readonly IChatRepository _chatRepository;
         private readonly IPDFRepository _pdfRepository;
-        private readonly IUserRepository _userRepository; // Agregar la referencia al repositorio de usuarios
-
+        private readonly IUserRepository _userRepository; 
         public GetRoomDetailsQueryService(
             IRoomRepository roomRepository, 
             IQuestionRepository questionRepository, 
