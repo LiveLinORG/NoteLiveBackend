@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using NoteLiveBackend.IAM.Domain.Model.Aggregates;
+﻿using NoteLiveBackend.IAM.Domain.Model.Aggregates;
 using NoteLiveBackend.IAM.Domain.Model.Queries;
+
+namespace NoteLiveBackend.IAM.Domain.Services;
 
 public interface IUserQueryServices
 {

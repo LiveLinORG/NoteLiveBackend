@@ -1,6 +1,9 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using NoteLiveBackend.IAM.Domain.Services;
+using NoteLiveBackend.IAM.Interfaces.Resources;
+using NoteLiveBackend.IAM.Interfaces.Transform;
 
+namespace NoteLiveBackend.IAM.Interfaces;
 
 public class AuthenticationController(IUserCommandService userCommandService) : ControllerBase
 {

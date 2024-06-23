@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\backend_appweb\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend.csproj": {}
+    "E:\\2024 CICLO 5\\Aplicaciones Web\\NoteLiveWebApp\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend.csproj": {}
   },
   "projects": {
-    "C:\\backend_appweb\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend.csproj": {
+    "E:\\2024 CICLO 5\\Aplicaciones Web\\NoteLiveWebApp\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\backend_appweb\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend.csproj",
+        "projectUniqueName": "E:\\2024 CICLO 5\\Aplicaciones Web\\NoteLiveWebApp\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend.csproj",
         "projectName": "NoteLiveBackend",
-        "projectPath": "C:\\backend_appweb\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend.csproj",
-        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\backend_appweb\\NoteLiveBackend\\NoteLiveBackend\\obj\\",
+        "projectPath": "E:\\2024 CICLO 5\\Aplicaciones Web\\NoteLiveWebApp\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend.csproj",
+        "packagesPath": "C:\\Users\\ADRIAN\\.nuget\\packages\\",
+        "outputPath": "E:\\2024 CICLO 5\\Aplicaciones Web\\NoteLiveWebApp\\NoteLiveBackend\\NoteLiveBackend\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ADRIAN\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -118,7 +119,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

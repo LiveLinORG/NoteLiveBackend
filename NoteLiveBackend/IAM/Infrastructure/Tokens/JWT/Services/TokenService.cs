@@ -1,14 +1,13 @@
 ﻿using System.Security.Claims;
 using System.Text;
-
-using System.Security.Claims;
-using System.Text;
-
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
+using NoteLiveBackend.IAM.Application.Internal.OutboundServices;
 using NoteLiveBackend.IAM.Domain.Model.Aggregates;
+using NoteLiveBackend.IAM.Infrastructure.Tokens.JWT.Configuration;
 
+namespace NoteLiveBackend.IAM.Infrastructure.Tokens.JWT.Services;
 
 public class TokenService(IOptions<TokenSettings> tokenSettings) : ITokenService
 {
@@ -46,13 +45,13 @@ public class TokenService(IOptions<TokenSettings> tokenSettings) : ITokenService
         {
             var tokenValidationResult = await tokenHandler.
                 ValidateTokenAsync(token, new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = false,
-                ValidateAudience = false,
-                ClockSkew = TimeSpan.Zero
-            });
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ClockSkew = TimeSpan.Zero
+                });
             var jwtToken = (JsonWebToken)tokenValidationResult.SecurityToken;
             var userId = int.Parse(jwtToken.Claims.First(claim => claim.Type 
                                                                   == ClaimTypes.Sid).Value);

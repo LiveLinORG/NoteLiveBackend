@@ -1,5 +1,8 @@
-﻿using BCryptNet = BCrypt.Net.BCrypt;
+﻿using NoteLiveBackend.IAM.Application.Internal.OutboundServices;
+using BCryptNet = BCrypt.Net.BCrypt;
 
+
+namespace NoteLiveBackend.IAM.Infrastructure.Hashing.BCrypt.Services;
 
 public class HashingService : IHashingService
 {

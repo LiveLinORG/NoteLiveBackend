@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using NoteLiveBackend.IAM.Domain.Model.Aggregates;
+using NoteLiveBackend.IAM.Domain.Repositories;
 using NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Configuration;
 using NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Repositories;
+
+namespace NoteLiveBackend.IAM.Infrastructure.Persistence.EFC.Repositories;
 
 public class UserRepository : BaseRepository<User>, IUserRepository
 {

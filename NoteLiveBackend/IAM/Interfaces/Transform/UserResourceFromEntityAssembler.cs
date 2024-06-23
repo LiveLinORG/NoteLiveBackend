@@ -1,6 +1,7 @@
-﻿
+﻿using NoteLiveBackend.IAM.Domain.Model.Aggregates;
+using NoteLiveBackend.IAM.Interfaces.Resources;
 
-using NoteLiveBackend.IAM.Domain.Model.Aggregates;
+namespace NoteLiveBackend.IAM.Interfaces.Transform;
 
 public class UserResourceFromEntityAssembler
 {

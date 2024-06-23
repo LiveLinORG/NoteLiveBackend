@@ -1,14 +1,17 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using NoteLiveBackend.IAM.Application.Internal.CommandServices;
+using NoteLiveBackend.IAM.Application.Internal.QueryServices;
+using NoteLiveBackend.IAM.Domain.Repositories;
+using NoteLiveBackend.IAM.Domain.Services;
+using NoteLiveBackend.IAM.Infrastructure.Persistence.EFC.Repositories;
 using NoteLiveBackend.Room.Infraestructure.Repositories;
 using NoteLiveBackend.Shared.Domain.Repositories;
 using NoteLiveBackend.Shared.Infraestructure.Interfaces.ASP.Configuration;
 using NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Configuration;
 using NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Repositories;
+using NoteLiveBackend.IAM.Infrastructure.Tokens.JWT.Services; 
+using NoteLiveBackend.IAM.Application.Internal.OutboundServices;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -65,6 +68,7 @@ builder.Services.AddScoped<ChatRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserCommandService, UserCommandService>();
 builder.Services.AddScoped<IUserQueryServices, UserQueryService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 
 

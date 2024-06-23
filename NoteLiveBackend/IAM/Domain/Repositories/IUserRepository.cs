@@ -1,6 +1,7 @@
 ﻿using NoteLiveBackend.IAM.Domain.Model.Aggregates;
 using NoteLiveBackend.Shared.Domain.Repositories;
-using System.Threading.Tasks;
+
+namespace NoteLiveBackend.IAM.Domain.Repositories;
 
 public interface IUserRepository : IBaseRepository<User>
 {

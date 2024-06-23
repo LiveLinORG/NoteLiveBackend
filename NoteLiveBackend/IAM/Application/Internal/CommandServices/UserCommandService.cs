@@ -1,8 +1,11 @@
-﻿using NoteLiveBackend.Shared.Domain.Repositories;
-using System.Threading.Tasks;
+﻿using NoteLiveBackend.IAM.Application.Internal.OutboundServices;
 using NoteLiveBackend.IAM.Domain.Model.Aggregates;
 using NoteLiveBackend.IAM.Domain.Model.Commands;
+using NoteLiveBackend.IAM.Domain.Repositories;
+using NoteLiveBackend.IAM.Domain.Services;
+using NoteLiveBackend.Shared.Domain.Repositories;
 
+namespace NoteLiveBackend.IAM.Application.Internal.CommandServices;
 
 public class UserCommandService : IUserCommandService
 {

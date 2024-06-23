@@ -1,11 +1,11 @@
 ﻿using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using NoteLiveBackend.IAM.Domain.Model.Queries;
+using NoteLiveBackend.IAM.Domain.Services;
 using NoteLiveBackend.IAM.Interfaces.Resources;
 using NoteLiveBackend.IAM.Interfaces.Transform;
+
+namespace NoteLiveBackend.IAM.Interfaces;
 
 [ApiController]
 [Route("api/v1/[controller]")]

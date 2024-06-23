@@ -1,6 +1,7 @@
-﻿using System.Threading.Tasks;
-using NoteLiveBackend.IAM.Domain.Model.Aggregates;
+﻿using NoteLiveBackend.IAM.Domain.Model.Aggregates;
 using NoteLiveBackend.IAM.Domain.Model.Commands;
+
+namespace NoteLiveBackend.IAM.Domain.Services;
 
 public interface IUserCommandService
 {
