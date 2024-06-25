@@ -24,20 +24,6 @@ public class UserQueryService : IUserQueryServices
         return await _userRepository.GetAllAsync();
     }
 
-    public async Task<IEnumerable<User>> Handle(GetUserByNameQuery query)
-    {
-        return await _userRepository.FindByNameAsync(query.Name);
-    }
-
-    public async Task<User?> Handle(GetUserByNameAndCorreoQuery query)
-    {
-        return await _userRepository.FindByNameAndCorreoAsync(query.Name, query.Correo);
-    }
-
-    public async Task<User?> Handle(GetUserByCodigoProfesorQuery query)
-    {
-        return await _userRepository.FindByCodigoProfesorAsync(query.CodigoProfesor);
-    }
 
 
 }

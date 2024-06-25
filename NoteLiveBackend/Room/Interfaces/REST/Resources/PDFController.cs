@@ -10,21 +10,14 @@ namespace NoteLiveBackend.Room.Interfaces.REST.Resources;
 [Route("api/[controller]")]
 public class PDFController : ControllerBase
 {
-    private readonly UploadPDFCommandService _uploadPDFCommandService;
     private readonly GetPDFDetailsQueryService _getPDFDetailsQueryService;
 
-    public PDFController(UploadPDFCommandService uploadPDFCommandService, GetPDFDetailsQueryService getPDFDetailsQueryService)
+    public PDFController(GetPDFDetailsQueryService getPDFDetailsQueryService)
     {
-        _uploadPDFCommandService = uploadPDFCommandService;
         _getPDFDetailsQueryService = getPDFDetailsQueryService;
     }
 
-    [HttpPost]
-    public IActionResult UploadPDF([FromBody] UploadPDFCommand command)
-    {
-        _uploadPDFCommandService.Handle(command);
-        return Ok();
-    }
+
 
     [HttpGet("{roomId}")]
     public IActionResult GetPDFDetails(Guid roomId)

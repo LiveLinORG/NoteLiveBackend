@@ -4,12 +4,14 @@ public class PDF
 {
     public Guid Id { get; private set; }
     public byte[] Content { get; private set; }
-    public Guid RoomId { get; private set; } // Agrega la propiedad RoomId
+    public Guid RoomId { get; private set; }
 
-    public PDF(Guid id, byte[] content, Guid roomId) // Modifica el constructor para incluir RoomId
+    public PDF(byte[] content, Room _room)
     {
-        Id = id;
+        Id = Guid.NewGuid();
         Content = content;
-        RoomId = roomId;
+        RoomId = _room.Id;
     }
+    private PDF() { }
+    public Room Room { get; set; }
 }

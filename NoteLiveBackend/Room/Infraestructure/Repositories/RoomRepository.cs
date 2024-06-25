@@ -1,51 +1,33 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NoteLiveBackend.Room.Application.Internal.CommandServices;
 using NoteLiveBackend.Room.Domain.Exceptions;
+using NoteLiveBackend.Room.Domain.Repositories;
 using NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Configuration;
+using NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Repositories;
+
 namespace NoteLiveBackend.Room.Infraestructure.Repositories;
 
-public class RoomRepository : IRoomRepository
+public class RoomRepository(AppDbContext _context) : BaseRepository<Domain.Model.Entities.Room>(_context),IRoomRepository
 {
-    private readonly AppDbContext _context;
 
-    public RoomRepository(AppDbContext context)
+    public new async Task<Domain.Model.Entities.Room?> FindByIdAsync(Guid id) =>
+        await _context.Set<Domain.Model.Entities.Room>()
+            .Include(r => r.Chat)
+            .FirstOrDefaultAsync(r => r.Id == id);
+
+    public async Task<IEnumerable<Domain.Model.Entities.Room>> FindByPdfNameAsync(string searchText)
     {
-        _context = context;
-    }
+        var rooms = await Context.Set<Domain.Model.Entities.Room>()
+            .ToListAsync();
 
-    public async Task<Domain.Model.Entities.Room> GetById(Guid id)
+        var filteredRooms = rooms.Where(r => ContainsText(r.PDF.Content, searchText));
+
+        return filteredRooms;
+    }
+    private bool ContainsText(byte[] content, string searchText)
     {
-        var room = _context.Rooms.SingleOrDefault(r => r.Id == id);
-
-        if (room == null)
-        {
-            throw new RoomNotFoundException();
-        }
-
-        return room;
+        string text = System.Text.Encoding.UTF8.GetString(content);
+        return text.Contains(searchText);
     }
-
-
-    public IEnumerable<Domain.Model.Entities.Room> GetAll()
-    {
-        return _context.Rooms.ToList();
-    }
-
-    public void Add(Domain.Model.Entities.Room room)
-    {
-        _context.Rooms.Add(room);
-        _context.SaveChanges();
-    }
-
-    public async Task Update(Domain.Model.Entities.Room room)
-    {
-        _context.Rooms.Update(room);
-        await _context.SaveChangesAsync(); // Guardar los cambios asincrónicamente
-    }
-
-    public void Remove(Domain.Model.Entities.Room room)
-    {
-        _context.Rooms.Remove(room);
-        _context.SaveChanges();
-    }
+  
 }

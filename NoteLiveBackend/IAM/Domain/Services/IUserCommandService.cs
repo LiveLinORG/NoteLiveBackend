@@ -6,6 +6,5 @@ namespace NoteLiveBackend.IAM.Domain.Services;
 public interface IUserCommandService
 {
     Task<(User user, string token)> Handle(SignInCommand command);
-    Task<User> Handle(CreateUserCommand command);
     Task Handle(SignUpCommand command);
 }

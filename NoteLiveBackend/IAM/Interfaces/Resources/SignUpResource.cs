@@ -1,4 +1,5 @@
 ﻿
 namespace NoteLiveBackend.IAM.Interfaces.Resources;
 
-public record SignUpResource(string Username, string Password, string Role, string Name, string LastName, string Correo, long? CodigoProfesor);
+public record SignUpResource(string Username,
+    string Password, string Role, string Name, string LastName, string Correo);

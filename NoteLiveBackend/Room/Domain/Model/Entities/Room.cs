@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using NoteLiveBackend.IAM.Domain.Model.Aggregates;
 using NoteLiveBackend.Room.Application.Internal.Outboundservices.acl;
 using NoteLiveBackend.Room.Domain.Exceptions;
 
@@ -9,40 +10,44 @@ public class Room
     public string Name { get; private set; }
     public Guid ProfessorId { get; private set; }
     public List<Question> Questions { get; private set; }
-    [NotMapped] // Esta propiedad no será mapeada a la base de datos
+    public User Creador { get; internal set; }
 
+    public bool ChatActivated { get; set; }
     public List<Guid> UserIds { get; private set; }
-
-    // Propiedad PDF actualizada
+        
     public PDF PDF { get; private set; }
+        
+    public Chat Chat { get; set; }
 
-
-    public Room(Guid id, string name, Guid professorId)
+    public Room(string name, Guid professorId)
     {
-        Id = id;
+        Id = Guid.NewGuid();
         Name = name;
         ProfessorId = professorId;
         Questions = new List<Question>();
+        UserIds = new List<Guid>();
+        ChatActivated = true;
     }
 
-    // Método para cargar un PDF en la sala
     public void UploadPDF(PDF pdf)
     {
         PDF = pdf;
     }
 
-    // Método para realizar una pregunta en la sala
     public void AskQuestion(Question question)
     {
         Questions.Add(question);
     }
 
-    // Método para agregar un usuario a la sala
     public void AddUser(Guid userId)
     {
         UserIds.Add(userId);
     }
-    // Método para exportar el PDF de la sala utilizando el servicio de exportación PDF
+
+    public void EndRoom()
+    {
+        ChatActivated = false;
+    }
     public async Task ExportPDF(IPDFExportService pdfExportService)
     {
         if (PDF == null)

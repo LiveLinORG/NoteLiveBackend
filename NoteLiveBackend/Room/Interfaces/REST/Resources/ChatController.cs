@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using NoteLiveBackend.Room.Application.Internal.Queryservices;
+using NoteLiveBackend.Room.Domain.Model.Commands;
 using NoteLiveBackend.Room.Domain.Model.Queries;
+using NoteLiveBackend.Room.Domain.Services;
 using NoteLiveBackend.Room.Interfaces.WebSocket;
 
 namespace NoteLiveBackend.Room.Interfaces.REST.Resources;
@@ -10,6 +12,7 @@ namespace NoteLiveBackend.Room.Interfaces.REST.Resources;
 public class ChatController : ControllerBase
 {
     private readonly IHubContext<ChatHub> _hubContext;
+    private readonly IRoomCommandService _roomCommandService;
 
     public ChatController(IHubContext<ChatHub> hubContext)
     {
@@ -19,14 +22,21 @@ public class ChatController : ControllerBase
     [HttpPost("join")]
     public IActionResult JoinRoom([FromBody] JoinRoomRequest request)
     {
-
-
         return Ok(new { message = "Successfully joined the room." });
     }
-
-    public class JoinRoomRequest
+    [HttpPost("check-activated")]
+    public async Task<IActionResult> CheckIfActivated([FromBody] CheckIfActivatedRequest request)
     {
-        public string RoomId { get; set; }
-        public string UserId { get; set; }
+        var checkIfActivatedCommand = new CheckIfActivatedCommand(request.RoomId, request.UserId);
+        var result = await _roomCommandService.Handle(checkIfActivatedCommand);
+        if (result)
+        {
+            return Ok(new { message = "Room and Chat are active." });
+        }
+        else
+        {
+            return BadRequest(new { message = "Cannot join the room." });
+        }
     }
+
 }

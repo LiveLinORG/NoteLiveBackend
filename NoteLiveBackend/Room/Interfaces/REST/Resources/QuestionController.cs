@@ -10,22 +10,14 @@ namespace NoteLiveBackend.Room.Interfaces.REST.Resources;
 [Route("api/[controller]")]
 public class QuestionController : ControllerBase
 {
-    private readonly AskQuestionCommandService _askQuestionCommandService;
     private readonly GetQuestionsQueryService _getQuestionsQueryService;
 
 
-    public QuestionController(AskQuestionCommandService askQuestionCommandService, GetQuestionsQueryService getQuestionsQueryService)
+    public QuestionController(GetQuestionsQueryService getQuestionsQueryService)
     {
-        _askQuestionCommandService = askQuestionCommandService;
         _getQuestionsQueryService = getQuestionsQueryService;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> AskQuestion([FromBody] AskQuestionCommand command)
-    {
-        await _askQuestionCommandService.HandleAsync(command);
-        return Ok();
-    }
 
 
     [HttpGet("{roomId}")]

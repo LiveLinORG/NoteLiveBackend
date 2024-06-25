@@ -12,6 +12,11 @@ using NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Configuration;
 using NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Repositories;
 using NoteLiveBackend.IAM.Infrastructure.Tokens.JWT.Services; 
 using NoteLiveBackend.IAM.Application.Internal.OutboundServices;
+using NoteLiveBackend.IAM.Infrastructure.Hashing.BCrypt.Services;
+using NoteLiveBackend.Room.Application.Internal.CommandServices;
+using NoteLiveBackend.Room.Application.Internal.Queryservices;
+using NoteLiveBackend.Room.Domain.Repositories;
+using NoteLiveBackend.Room.Domain.Services;
 using NoteLiveBackend.Room.Interfaces.WebSocket;
 
 
@@ -82,12 +87,17 @@ builder.Services.AddSignalR();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-builder.Services.AddScoped<ChatRepository>();
+builder.Services.AddScoped<IChatRepository,ChatRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserCommandService, UserCommandService>();
-builder.Services.AddScoped<IUserQueryServices, UserQueryService>();
-builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IRoomRepository, RoomRepository>();
+builder.Services.AddScoped<IPDFRepository, PDFRepository>();
 
+
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IHashingService, HashingService>();
+builder.Services.AddScoped<IUserQueryServices, UserQueryService>();
+builder.Services.AddScoped<IRoomCommandService, RoomCommandService>();
+builder.Services.AddScoped<IUserCommandService, UserCommandService>();
 
 
 // Register additional repositories and services here

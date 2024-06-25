@@ -3,34 +3,58 @@ using NoteLiveBackend.Room.Application.Internal.CommandServices;
 using NoteLiveBackend.Room.Application.Internal.Queryservices;
 using NoteLiveBackend.Room.Domain.Model.Commands;
 using NoteLiveBackend.Room.Domain.Model.Queries;
+using NoteLiveBackend.Room.Domain.Services;
+using NoteLiveBackend.Room.Interfaces.REST.Transform;
 using RoomCommands = NoteLiveBackend.Room.Domain.Model.Commands;
 
 namespace NoteLiveBackend.Room.Interfaces.REST.Resources;
 [ApiController]
 [Route("api/[controller]")]
-public class RoomController : ControllerBase
+public class RoomController(IRoomCommandService roomCommandService,IRoomQueryService roomQueryServices) : ControllerBase
 {
-    private readonly CreateRoomCommandService _createRoomCommandService;
-    private readonly GetRoomDetailsQueryService _getRoomDetailsQueryService;
-
-    public RoomController(CreateRoomCommandService createRoomCommandService, GetRoomDetailsQueryService getRoomDetailsQueryService)
-    {
-        _createRoomCommandService = createRoomCommandService;
-        _getRoomDetailsQueryService = getRoomDetailsQueryService;
-    }
-
     [HttpPost]
-    public IActionResult CreateRoom([FromBody] RoomCommands.CreateRoomCommand command)
+    public async Task<IActionResult> CreateRoom([FromBody] CreateRoomResource createRoomResource)
     {
-        _createRoomCommandService.Handle(command);
-        return Ok();
+        var createRoomCommand = CreateRoomCommandFromResourceAssembler.ToCommandFromResource(createRoomResource);
+        var room = await roomCommandService.Handle(createRoomCommand);
+        if (room is null) return BadRequest();
+        var resource = RoomResourceFromEntityAssembler.ToResourceFromEntity(room);
+        return CreatedAtAction(nameof(GetRoomById), new { roomId = resource.id }, resource);
     }
 
-    [HttpGet("{id}")]
-    public IActionResult GetRoomDetails(Guid id)
+    [HttpGet("{roomId:guid}")]
+    public async Task<IActionResult> GetRoomById([FromRoute]Guid roomId)
     {
-        var query = new GetRoomDetailsQuery(id);
-        var room = _getRoomDetailsQueryService.Handle(query);
+        var room = await roomQueryServices.Handle(new GetRoomByIdQuery(roomId));
+        if (room is null) return BadRequest();
+        var resource = RoomResourceFromEntityAssembler.ToResourceFromEntity(room);
+        return Ok(resource);
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> GetAllRooms()
+    {
+        var getAllRoomsQuery = new GetAllRoomsQuery();
+        var rooms = await roomQueryServices.Handle(getAllRoomsQuery);
+        var resources = rooms.Select(RoomResourceFromEntityAssembler
+            .ToResourceFromEntity); 
+        return Ok(resources);
+    }
+
+    [HttpPost("{userId:guid}")]
+    public async Task<IActionResult> AddUserToRoom([FromBody] AddUserToRoomResource addUserToRoomResource, [FromRoute] Guid userId)
+    {
+        var addUserToRoomCommand = AddUserToRoomCommandFromResourceAssembler.ToCommandFromResource(addUserToRoomResource, userId);
+        var room = await roomCommandService.Handle(addUserToRoomCommand);
+        return CreatedAtAction(nameof(GetRoomById), new { tutorialIdentifier = room.Id },
+            room);
+    }
+
+    [HttpPut("{roomId:guid}")]
+    public async Task<IActionResult> EndRoomSession([FromRoute] Guid roomId)
+    {
+        var endRoomCommand = new EndRoomCommand(roomId);
+        var room = await roomCommandService.Handle(endRoomCommand);
         return Ok(room);
     }
 }

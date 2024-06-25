@@ -1,10 +1,9 @@
 ﻿namespace NoteLiveBackend.IAM.Domain.Model.Commands
 {
-    public record SignUpCommand(string Username, string Password, string Role, string Name, string LastName, string Correo, long? CodigoProfesor)
+    public record SignUpCommand(string Username, string Password, string Role, string Name, string LastName, string Correo)
     {
         public void Validate()
         {
-            // Validar que los campos necesarios no estén vacíos o sean nulos
             if (string.IsNullOrWhiteSpace(Username))
                 throw new ArgumentException("Username must not be empty", nameof(Username));
             if (string.IsNullOrWhiteSpace(Password))

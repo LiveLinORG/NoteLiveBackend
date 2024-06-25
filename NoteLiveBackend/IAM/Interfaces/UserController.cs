@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using NoteLiveBackend.IAM.Domain.Model.Queries;
 using NoteLiveBackend.IAM.Domain.Services;
-using NoteLiveBackend.IAM.Interfaces.Resources;
 using NoteLiveBackend.IAM.Interfaces.Transform;
 
 namespace NoteLiveBackend.IAM.Interfaces;
@@ -10,7 +9,7 @@ namespace NoteLiveBackend.IAM.Interfaces;
 [ApiController]
 [Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
-public class UserController(IUserQueryServices userQueryServices, IUserCommandService userCommandServices) : ControllerBase
+public class UserController(IUserQueryServices userQueryServices) : ControllerBase
 {
     [HttpGet]
     public async Task<IActionResult> GetAllUsers()
@@ -28,44 +27,5 @@ public class UserController(IUserQueryServices userQueryServices, IUserCommandSe
         var user = await userQueryServices.Handle(getUserByIdQuery);
         var userResource = UserResourceFromEntityAssembler.ToResourceFromEntity(user);
         return Ok(userResource);
-    }
-
-    [HttpGet("search")]
-    public async Task<IActionResult> GetUserByQuery([FromQuery] string name, [FromQuery] string correo, [FromQuery] long? codigoProfesor)
-    {
-        if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(correo))
-        {
-            var query = new GetUserByNameAndCorreoQuery(name, correo);
-            var user = await userQueryServices.Handle(query);
-            var userResource = UserResourceFromEntityAssembler.ToResourceFromEntity(user);
-            return Ok(userResource);
-        }
-        else if (!string.IsNullOrEmpty(name))
-        {
-            var query = new GetUserByNameQuery(name);
-            var users = await userQueryServices.Handle(query);
-            var userResources = users.Select(UserResourceFromEntityAssembler.ToResourceFromEntity);
-            return Ok(userResources);
-        }
-        else if (codigoProfesor.HasValue)
-        {
-            var query = new GetUserByCodigoProfesorQuery(codigoProfesor.Value);
-            var user = await userQueryServices.Handle(query);
-            var userResource = UserResourceFromEntityAssembler.ToResourceFromEntity(user);
-            return Ok(userResource);
-        }
-        else
-        {
-            return BadRequest("No valid query parameters provided.");
-        }
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> CreateUser([FromBody] CreateUserResource resource)
-    {
-        var command = CreateUserCommandFromResourceAssembler.ToCommandFromResource(resource);
-        var user = await userCommandServices.Handle(command);
-        var userResource = UserResourceFromEntityAssembler.ToResourceFromEntity(user);
-        return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, userResource);
     }
 }

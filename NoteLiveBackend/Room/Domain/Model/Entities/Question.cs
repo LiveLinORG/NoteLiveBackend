@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using NoteLiveBackend.IAM.Domain.Model.Aggregates;
 
 namespace NoteLiveBackend.Room.Domain.Model.Entities;
 

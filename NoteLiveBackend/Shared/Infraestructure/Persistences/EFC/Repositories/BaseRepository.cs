@@ -23,6 +23,13 @@ public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where T
         return await Context.Set<TEntity>().FindAsync(id);
     }
 
+    public async Task UpdateAsync(TEntity entity)
+    {
+        Context.Update(entity);
+        await Context.SaveChangesAsync();
+        
+    }
+ 
     public void Update(TEntity entity)
     {
         Context.Set<TEntity>().Update(entity);

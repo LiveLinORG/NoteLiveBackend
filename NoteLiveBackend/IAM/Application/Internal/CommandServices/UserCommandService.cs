@@ -4,7 +4,7 @@ using NoteLiveBackend.IAM.Domain.Model.Commands;
 using NoteLiveBackend.IAM.Domain.Repositories;
 using NoteLiveBackend.IAM.Domain.Services;
 using NoteLiveBackend.Shared.Domain.Repositories;
-
+using NoteLiveBackend.IAM.Infrastructure.Hashing.BCrypt.Services;
 namespace NoteLiveBackend.IAM.Application.Internal.CommandServices;
 
 public class UserCommandService : IUserCommandService
@@ -12,6 +12,7 @@ public class UserCommandService : IUserCommandService
     private readonly IUserRepository _userRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ITokenService _tokenService;
+    private readonly IHashingService hashingService;
 
     public UserCommandService(IUserRepository userRepository, IUnitOfWork unitOfWork, ITokenService tokenService)
     {
@@ -20,35 +21,10 @@ public class UserCommandService : IUserCommandService
         _tokenService = tokenService;
     }
 
-    public async Task<User> Handle(CreateUserCommand command)
-    {
-        if (command.CodigoProfesor.HasValue)
-        {
-            var profesor = await _userRepository.FindByCodigoProfesorAsync(command.CodigoProfesor.Value);
-            if (profesor != null)
-                throw new Exception("Professor with this code already exists");
-
-            var newProfesor = new User(command.Correo, command.Password, "Profesor", command.Name, command.LastName, command.Correo, command.CodigoProfesor.Value);
-            await _userRepository.AddAsync(newProfesor);
-        }
-        else
-        {
-            var alumno = await _userRepository.FindByCorreoAlumnoAsync(command.Correo);
-            if (alumno != null)
-                throw new Exception("Student with this email already exists");
-
-            var newAlumno = new User(command.Correo, command.Password, "Alumno", command.Name, command.LastName, command.Correo);
-            await _userRepository.AddAsync(newAlumno);
-        }
-
-        await _unitOfWork.CompleteAsync();
-        return await _userRepository.FindByUsernameAsync(command.Correo);
-    }
-
     public async Task<(User user, string token)> Handle(SignInCommand command)
     {
         var user = await _userRepository.FindByUsernameAsync(command.username);
-        if (user == null || user.Password != command.password) // Assuming plain text comparison for simplicity
+        if (user == null || !hashingService.VerifyPassword(command.password, user.PasswordHash))
             throw new Exception("Invalid credentials");
 
         var token = _tokenService.GenerateToken(user);
@@ -58,15 +34,21 @@ public class UserCommandService : IUserCommandService
     public async Task Handle(SignUpCommand command)
     {
         command.Validate(); // Validar los datos del comando SignUpCommand
+        if (_userRepository.ExistsByUsername(command.Username))
+            throw new Exception($"Username {command.Username} is already taken");
 
-        var existingUser = await _userRepository.FindByUsernameAsync(command.Username);
-        if (existingUser != null)
-            throw new Exception("User with this username already exists");
-
-        // Utilizar CreateUserCommand para crear el usuario
-        var createUserCommand = new CreateUserCommand(command.Name, command.LastName, command.Correo, command.Password, command.CodigoProfesor);
-        await Handle(createUserCommand); // Llamar al método Handle(CreateUserCommand) para crear el usuario
-
-        await _unitOfWork.CompleteAsync();
+        var hashedPassword = hashingService.HashPassword(command.Password);
+        var newUser = new User(command.Username, command.Password, command.Name, command.LastName, command.Correo,
+            command.Role);
+        try
+        {
+            await _userRepository.AddAsync(newUser);
+            await _unitOfWork.CompleteAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw new Exception($"An error ocurred while creating user: {e.Message}");
+        }
     }
-}
+    }
