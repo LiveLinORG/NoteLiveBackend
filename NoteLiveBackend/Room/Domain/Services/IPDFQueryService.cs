@@ -6,6 +6,6 @@ namespace NoteLiveBackend.Room.Domain.Services;
 
 public interface  IPDFQueryService
 {
-    Task<(byte[]?, List<Question>?)> Handle(GetPDFWithQuestionsByRoomIdQuery query);
+    Task<(byte[]?, IReadOnlyList<Question?>)> Handle(GetPDFWithQuestionsByRoomIdQuery query);
 
 }

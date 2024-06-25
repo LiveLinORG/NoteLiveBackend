@@ -1,4 +1,5 @@
-﻿using NoteLiveBackend.Shared.Domain.Repositories;
+﻿using NoteLiveBackend.Room.Domain.Model.Entities;
+using NoteLiveBackend.Shared.Domain.Repositories;
 
 namespace NoteLiveBackend.Room.Domain.Repositories;
 
@@ -9,5 +10,5 @@ public interface IRoomRepository : IBaseRepository<Model.Entities.Room>
    Task<Model.Entities.Room?> FindByIdWithChatAsync(Guid id);
    Task<Model.Entities.Room?> FindByIdWithChatAndPdfAsync(Guid id);
 
-    Task<(byte[]?, List<Domain.Model.Entities.Question>?)> FindPdfAndQuestionsAsync(Guid id);
+    Task<(byte[]?, IReadOnlyList<Question?>)> FindPdfAndQuestionsAsync(Guid id);
 }

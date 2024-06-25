@@ -12,7 +12,7 @@ public static class RoomResourceFromEntityAssembler
             room.CreadorId,
             room.Questions,
             room.Creador,
-            room.UserIds,
+            room.Users,
             room.PDF,
             room.Chat);
     }

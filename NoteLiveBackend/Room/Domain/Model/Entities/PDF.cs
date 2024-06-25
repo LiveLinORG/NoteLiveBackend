@@ -15,5 +15,10 @@ public class PDF
         Content = content;
         RoomId = _RoomId;
     }
+    public PDF(Guid _RoomId)
+    {
+        Id = Guid.NewGuid();
+        RoomId = _RoomId;
+    }
     private PDF() { }
 }

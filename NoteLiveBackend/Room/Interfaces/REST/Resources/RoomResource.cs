@@ -7,8 +7,8 @@ public record RoomResource(
     Guid id,
     string Name,
     Guid ProfessorId,
-    List<Question> Questions,
+    IReadOnlyList<Question> Questions,
     User Creador,
-    List<Guid> UserIds,
+    IReadOnlyList<User> UserIds,
     PDF? Pdf,
     Chat Chat);

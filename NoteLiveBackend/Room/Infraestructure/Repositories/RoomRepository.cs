@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NoteLiveBackend.Room.Application.Internal.CommandServices;
 using NoteLiveBackend.Room.Domain.Exceptions;
+using NoteLiveBackend.Room.Domain.Model.Entities;
 using NoteLiveBackend.Room.Domain.Repositories;
 using NoteLiveBackend.Room.Domain.Services;
 using NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Configuration;
@@ -32,7 +33,7 @@ public class RoomRepository(AppDbContext _context,IPDFCommandService _pdfCommand
   
 
     // Find Room by Id including PDF and Questions
-    public async Task<(byte[]?, List<Domain.Model.Entities.Question>?)> FindPdfAndQuestionsAsync(Guid id)
+    public async Task<(byte[]?, IReadOnlyList<Question?>)> FindPdfAndQuestionsAsync(Guid id)
     {
         var room = await _context.Set<Domain.Model.Entities.Room>()
             .Include(r => r.Questions)
@@ -40,7 +41,7 @@ public class RoomRepository(AppDbContext _context,IPDFCommandService _pdfCommand
 
         if (room == null)
         {
-            return (null, null);
+            return (null, new List<Question?>().AsReadOnly());
         }
 
         // Associate PDF if necessary
@@ -52,7 +53,8 @@ public class RoomRepository(AppDbContext _context,IPDFCommandService _pdfCommand
             .LoadAsync();
 
         // Return PDF byte array and Questions list
-        return (room.getPDF(), room.Questions);
+        
+        return (room.GetPDFContent(), room.Questions);
     }
 
  

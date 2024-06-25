@@ -14,7 +14,7 @@ public class PDFQueryService : IPDFQueryService
         _roomRepository = roomRepository;
     }
 
-    public async Task<(byte[]?, List<Question>?)> Handle(GetPDFWithQuestionsByRoomIdQuery query)
+    public async Task<(byte[]?, IReadOnlyList<Question?>)> Handle(GetPDFWithQuestionsByRoomIdQuery query)
     {
         return await _roomRepository.FindPdfAndQuestionsAsync(query.RoomId);
     }

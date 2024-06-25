@@ -27,6 +27,8 @@ public class User
     [MaxLength(20)]
     public string Role { get; private set; }
 
+    // Propiedad de navegación para la relación con Rooms
+    public ICollection<Room.Domain.Model.Entities.Room> Rooms { get; set; } = new List<Room.Domain.Model.Entities.Room>();
     public User(string username, string passwordHash, string firstName, string lastName, string email, string role = "alumno")
     {
         Id = Guid.NewGuid();

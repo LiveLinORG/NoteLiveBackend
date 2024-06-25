@@ -39,8 +39,8 @@ public class RoomCommandService(
         var room = await _roomRepository.FindByIdAsync(command.RoomId);
         if (room == null)
             throw new Exception("Room not found");
-
-        room.AddUser(command.UserId);
+        var user = await _userRepository.FindByIdAsync(command.UserId);
+        if (user != null) room.AddUser(user); //tal vez de error
         await _roomRepository.UpdateAsync(room);
         return room;
     }

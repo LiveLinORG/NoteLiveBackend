@@ -1,16 +1,17 @@
-﻿using NoteLiveBackend.Room.Interfaces.REST.Resources;
+﻿using NoteLiveBackend.Room.Domain.Model.Entities;
+using NoteLiveBackend.Room.Interfaces.REST.Resources;
 
 namespace NoteLiveBackend.Room.Interfaces.REST.Transform;
 
 public static class PDFWithQuestionsResourceAssembler
 {
     public static PDFWithQuestionsResource ToResourceFromEntity(
-        (byte[]? pdfData, List<Domain.Model.Entities.Question>? questions) result)
+        (byte[]?, IReadOnlyList<Question?>) result)
     {
         return new PDFWithQuestionsResource
         {
-            PDF = result.pdfData,
-            Questions = result.questions?.Select(q => new QuestionResource
+            PDF = result.Item1,
+            Questions = result.Item2?.Select(q => new QuestionResource
             {
                 Id = q.Id,
                 UserId = q.UserId,
