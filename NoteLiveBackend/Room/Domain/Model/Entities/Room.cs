@@ -8,7 +8,7 @@ public class Room
 {
     public Guid Id { get; private set; }
     public string Name { get; private set; }
-    public Guid ProfessorId { get; private set; }
+    public Guid CreadorId  { get; set; }
     public List<Question> Questions { get; private set; }
     public User Creador { get; internal set; }
 
@@ -20,11 +20,11 @@ public class Room
         
     public Chat Chat { get; set; }
 
-    public Room(string name, Guid professorId)
+    public Room(string name, Guid creadorId)
     {
         Id = Guid.NewGuid();
         Name = name;
-        ProfessorId = professorId;
+        CreadorId  = creadorId;
         Questions = new List<Question>();
         UserIds = new List<Guid>();
         ChatActivated = true;

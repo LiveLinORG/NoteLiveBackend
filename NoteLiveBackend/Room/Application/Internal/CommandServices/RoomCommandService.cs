@@ -26,10 +26,11 @@ public class RoomCommandService(
     public async Task<Domain.Model.Entities.Room?> Handle(CreateRoomCommand command)
     {
         var room = new Domain.Model.Entities.Room(command.Name, command.ProfessorId);
-        await _roomRepository.AddAsync(room);
+        await _roomRepository.AddSync(room);
         await unitOfWork.CompleteAsync();
         var creador = await _userRepository.FindByIdAsync(command.ProfessorId);
         room.Creador = creador;
+        room.CreadorId = creador.Id;
         return room;
     }
 

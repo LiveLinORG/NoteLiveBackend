@@ -9,7 +9,7 @@ public static class RoomResourceFromEntityAssembler
         return new RoomResource(
             room.Id,
             room.Name,
-            room.ProfessorId,
+            room.CreadorId,
             room.Questions,
             room.Creador,
             room.UserIds,
