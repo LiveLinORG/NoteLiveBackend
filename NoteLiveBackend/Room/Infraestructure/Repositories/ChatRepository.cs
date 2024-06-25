@@ -20,6 +20,11 @@ public class ChatRepository : IChatRepository
         return _context.Chats.FirstOrDefault(c => c.RoomId == roomId);
     }
 
+    public Task AddSync(Chat entity)
+    {
+        throw new NotImplementedException();
+    }
+
     public void Update(Chat? chat)
     {
         _context.Chats.Update(chat);

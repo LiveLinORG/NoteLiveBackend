@@ -94,13 +94,21 @@ builder.Services.AddScoped<IPDFRepository, PDFRepository>();
 builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 
 
-builder.Services.AddScoped<IPDFQueryService, PDFQueryService>();
-builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IHashingService, HashingService>();
-builder.Services.AddScoped<IUserQueryServices, UserQueryService>();
 builder.Services.AddScoped<IRoomCommandService, RoomCommandService>();
 builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+builder.Services.AddScoped<IQuestionCommandService, QuestionCommandService>();
 
+
+builder.Services.AddScoped<IPDFQueryService, PDFQueryService>();
+builder.Services.AddScoped<IUserQueryServices, UserQueryService>();
+builder.Services.AddScoped<IQuestionQueryService, QuestionQueryService>();
+builder.Services.AddScoped<IRoomQueryService, RoomQueryService>();
+
+
+
+
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IHashingService, HashingService>();
 
 // Register additional repositories and services here
 
