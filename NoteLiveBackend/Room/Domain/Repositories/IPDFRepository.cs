@@ -6,4 +6,6 @@ namespace NoteLiveBackend.Room.Domain.Repositories;
 
 public interface IPDFRepository : IBaseRepository<PDF>
 {
+    PDF? FindPDFByIdSync(Guid pdfId);
+
 }

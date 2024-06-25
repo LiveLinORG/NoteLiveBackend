@@ -97,6 +97,7 @@ builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 builder.Services.AddScoped<IRoomCommandService, RoomCommandService>();
 builder.Services.AddScoped<IUserCommandService, UserCommandService>();
 builder.Services.AddScoped<IQuestionCommandService, QuestionCommandService>();
+builder.Services.AddScoped<IPDFCommandService, PDFCommandService>();
 
 
 builder.Services.AddScoped<IPDFQueryService, PDFQueryService>();

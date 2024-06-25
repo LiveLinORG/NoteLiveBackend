@@ -2,6 +2,6 @@
 
 public class PDFWithQuestionsResource
 {
-    public byte[] PDF { get; set; }
-    public List<QuestionResource> Questions { get; set; }
+    public byte[]? PDF { get; set; }
+    public List<QuestionResource>? Questions { get; set; }
 }

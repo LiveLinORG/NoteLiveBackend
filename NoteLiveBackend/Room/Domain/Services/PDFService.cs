@@ -4,7 +4,7 @@ namespace NoteLiveBackend.Room.Domain.Services;
 
 public class PDFService
 {
-    public void UploadPDF(Model.Entities.Room room, PDF pdf)
+    public void UploadPDF(Model.Entities.Room room, PDF? pdf)
     {
         room.UploadPDF(pdf);
         // Lógica adicional para manejar el PDF

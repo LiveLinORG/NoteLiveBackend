@@ -24,9 +24,10 @@ public class PDFController : ControllerBase
     {
         var query = new GetPDFWithQuestionsByRoomIdQuery(roomId);
         var result = await _pdfQueryService.Handle(query);
-        if (result == null) return NotFound(new { message = "Room or PDF not found." });
+        if (result == (null, null)) return NotFound(new { message = "Room or PDF not found." });
 
         var resource = PDFWithQuestionsResourceAssembler.ToResourceFromEntity(result);
         return Ok(resource);
     }
+
 }

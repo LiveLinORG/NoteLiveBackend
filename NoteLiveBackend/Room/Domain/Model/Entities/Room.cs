@@ -2,35 +2,37 @@
 using NoteLiveBackend.IAM.Domain.Model.Aggregates;
 using NoteLiveBackend.Room.Application.Internal.Outboundservices.acl;
 using NoteLiveBackend.Room.Domain.Exceptions;
+using NoteLiveBackend.Room.Domain.Services;
 
 namespace NoteLiveBackend.Room.Domain.Model.Entities;
 public class Room
 {
     public Guid Id { get; private set; }
     public string Name { get; private set; }
-    public Guid CreadorId  { get; set; }
+    public Guid CreadorId { get; set; }
     public List<Question> Questions { get; private set; }
     public User Creador { get; internal set; }
 
     public bool ChatActivated { get; set; }
     [NotMapped]
     public List<Guid> UserIds { get; private set; }
-        
-    public PDF PDF { get; private set; }
-        
+
+    public Guid PdfId { get; set; } 
+
+    public PDF? PDF { get; private set; }
     public Chat Chat { get; set; }
 
     public Room(string name, Guid creadorId)
     {
         Id = Guid.NewGuid();
         Name = name;
-        CreadorId  = creadorId;
+        CreadorId = creadorId;
         Questions = new List<Question>();
         UserIds = new List<Guid>();
         ChatActivated = true;
     }
 
-    public void UploadPDF(PDF pdf)
+    public void UploadPDF(PDF? pdf)
     {
         PDF = pdf;
     }
@@ -49,6 +51,12 @@ public class Room
     {
         ChatActivated = false;
     }
+
+    public void AssociatePDF(IPDFCommandService pdfCommandService)
+    {
+        PDF? pdfnew = pdfCommandService.associate(PdfId);
+        UploadPDF(pdfnew);
+    }
     public async Task ExportPDF(IPDFExportService pdfExportService)
     {
         if (PDF == null)
@@ -57,5 +65,10 @@ public class Room
         }
 
         await pdfExportService.ExportAsync(PDF, Questions);
+    }
+
+    public byte[]? getPDF()
+    {
+        return PDF.Content;
     }
 }

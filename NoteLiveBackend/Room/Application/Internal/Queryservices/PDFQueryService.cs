@@ -1,4 +1,5 @@
-﻿using NoteLiveBackend.Room.Domain.Model.Queries;
+﻿using NoteLiveBackend.Room.Domain.Model.Entities;
+using NoteLiveBackend.Room.Domain.Model.Queries;
 using NoteLiveBackend.Room.Domain.Repositories;
 using NoteLiveBackend.Room.Domain.Services;
 using NoteLiveBackend.Room.Interfaces.REST.Resources;
@@ -13,8 +14,8 @@ public class PDFQueryService : IPDFQueryService
         _roomRepository = roomRepository;
     }
 
-    public async Task<Domain.Model.Entities.Room?> Handle(GetPDFWithQuestionsByRoomIdQuery query)
+    public async Task<(byte[]?, List<Question>?)> Handle(GetPDFWithQuestionsByRoomIdQuery query)
     {
-        return await _roomRepository.FindByIdWithPdfAndQuestionsAsync(query.RoomId);
+        return await _roomRepository.FindPdfAndQuestionsAsync(query.RoomId);
     }
 }

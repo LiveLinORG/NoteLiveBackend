@@ -4,12 +4,13 @@ namespace NoteLiveBackend.Room.Interfaces.REST.Transform;
 
 public static class PDFWithQuestionsResourceAssembler
 {
-    public static PDFWithQuestionsResource ToResourceFromEntity(Domain.Model.Entities.Room room)
+    public static PDFWithQuestionsResource ToResourceFromEntity(
+        (byte[]? pdfData, List<Domain.Model.Entities.Question>? questions) result)
     {
         return new PDFWithQuestionsResource
         {
-            PDF = room.PDF.Content,
-            Questions = room.Questions.Select(q => new QuestionResource
+            PDF = result.pdfData,
+            Questions = result.questions?.Select(q => new QuestionResource
             {
                 Id = q.Id,
                 UserId = q.UserId,
@@ -19,4 +20,5 @@ public static class PDFWithQuestionsResourceAssembler
             }).ToList()
         };
     }
+
 }

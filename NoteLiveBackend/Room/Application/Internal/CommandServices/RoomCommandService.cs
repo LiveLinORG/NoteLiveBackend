@@ -82,7 +82,7 @@ public class RoomCommandService(
         if (room == null)
             return false;
 
-        var pdf = new PDF(command.Content, room);
+        var pdf = new PDF(command.Content, command.RoomId);
         room.UploadPDF(pdf);
         await _pdfRepository.AddAsync(pdf);
         await _roomRepository.UpdateAsync(room);

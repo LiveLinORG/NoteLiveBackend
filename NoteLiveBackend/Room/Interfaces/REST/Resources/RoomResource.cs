@@ -10,5 +10,5 @@ public record RoomResource(
     List<Question> Questions,
     User Creador,
     List<Guid> UserIds,
-    PDF Pdf,
+    PDF? Pdf,
     Chat Chat);
