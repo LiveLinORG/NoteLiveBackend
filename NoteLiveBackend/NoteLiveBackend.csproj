@@ -27,6 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Room\Application\Internal\Eventhandlers\" />
       <Folder Include="Room\Domain\Model\Events\" />
     </ItemGroup>
 
