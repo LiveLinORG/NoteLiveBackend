@@ -1,6 +1,7 @@
 ﻿using NoteLiveBackend.IAM.Domain.Repositories;
 using NoteLiveBackend.Room.Application.Internal.Queryservices;
 using NoteLiveBackend.Room.Domain.Model.Commands;
+using NoteLiveBackend.Room.Domain.Model.Entities;
 using NoteLiveBackend.Room.Domain.Repositories;
 using NoteLiveBackend.Room.Domain.Services;
 using NoteLiveBackend.Shared.Domain.Repositories;
@@ -70,6 +71,21 @@ public class RoomCommandService(
         var chat = await _chatRepository.GetByRoomId(command.RoomId);
         if (chat == null || !chat.isActivated)
             return false;
+
+        return true;
+    }
+    
+    public async Task<bool> Handle(UploadPDFCommand command)
+    {
+        var room = await _roomRepository.FindByIdAsync(command.RoomId);
+        if (room == null)
+            return false;
+
+        var pdf = new PDF(command.Content, room);
+        room.UploadPDF(pdf);
+        await _pdfRepository.AddAsync(pdf);
+        await _roomRepository.UpdateAsync(room);
+        await unitOfWork.CompleteAsync();
 
         return true;
     }

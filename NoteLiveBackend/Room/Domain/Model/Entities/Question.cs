@@ -15,9 +15,9 @@ public class Question
     public Room Room { get; set; } // Propiedad de navegación con la entidad Room
 
 
-    public Question(Guid id, Guid userId, Guid roomId, string text) // Modifica el constructor para incluir RoomId
+    public Question(Guid userId, Guid roomId, string text) // Modifica el constructor para incluir RoomId
     {
-        Id = id;
+        Id = Guid.NewGuid();
         UserId = userId;
         RoomId = roomId;
         Text = text;

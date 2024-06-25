@@ -80,10 +80,7 @@ protected override void OnModelCreating(ModelBuilder builder)
     builder.Entity<Room.Domain.Model.Entities.Room>().Property(r => r.Id).IsRequired();
     builder.Entity<Room.Domain.Model.Entities.Room>().Property(r => r.Name).IsRequired();
     builder.Entity<Room.Domain.Model.Entities.Room>().Property(r => r.ProfessorId).IsRequired();
-    builder.Entity<Room.Domain.Model.Entities.Room>().HasMany(r => r.Questions)
-        .WithOne()
-        .HasForeignKey(q => q.RoomId)
-        .HasConstraintName("FK_Question_Room");
+
 
     // Usar convención de nombres en snake_case
     builder.UseSnakeCaseNamingConvention();

@@ -91,8 +91,10 @@ builder.Services.AddScoped<IChatRepository,ChatRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<IPDFRepository, PDFRepository>();
+builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 
 
+builder.Services.AddScoped<IPDFQueryService, PDFQueryService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IHashingService, HashingService>();
 builder.Services.AddScoped<IUserQueryServices, UserQueryService>();

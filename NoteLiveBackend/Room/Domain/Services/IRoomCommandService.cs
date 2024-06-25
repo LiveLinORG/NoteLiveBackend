@@ -7,6 +7,7 @@ public interface IRoomCommandService
     Task<Model.Entities.Room?> Handle(CreateRoomCommand command);
     
     Task<bool> Handle(CheckIfActivatedCommand command);
+    Task<bool> Handle(UploadPDFCommand command);
 
     //falta incorporar
     Task<Model.Entities.Room?> Handle(AddUserToRoomCommand command);

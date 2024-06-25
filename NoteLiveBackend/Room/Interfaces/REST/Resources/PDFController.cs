@@ -3,6 +3,8 @@ using NoteLiveBackend.Room.Application.Internal.CommandServices;
 using NoteLiveBackend.Room.Application.Internal.Queryservices;
 using NoteLiveBackend.Room.Domain.Model.Commands;
 using NoteLiveBackend.Room.Domain.Model.Queries;
+using NoteLiveBackend.Room.Domain.Services;
+using NoteLiveBackend.Room.Interfaces.REST.Transform;
 
 namespace NoteLiveBackend.Room.Interfaces.REST.Resources;
 
@@ -10,20 +12,21 @@ namespace NoteLiveBackend.Room.Interfaces.REST.Resources;
 [Route("api/[controller]")]
 public class PDFController : ControllerBase
 {
-    private readonly GetPDFDetailsQueryService _getPDFDetailsQueryService;
+    private readonly IPDFQueryService _pdfQueryService;
 
-    public PDFController(GetPDFDetailsQueryService getPDFDetailsQueryService)
+    public PDFController(IPDFQueryService pdfQueryService)
     {
-        _getPDFDetailsQueryService = getPDFDetailsQueryService;
+        _pdfQueryService = pdfQueryService;
     }
 
-
-
-    [HttpGet("{roomId}")]
-    public IActionResult GetPDFDetails(Guid roomId)
+    [HttpGet("{roomId:guid}")]
+    public async Task<IActionResult> GetPDFWithQuestionsByRoomId([FromRoute] Guid roomId)
     {
-        var query = new GetPDFDetailsQuery(roomId);
-        var pdf = _getPDFDetailsQueryService.Handle(query);
-        return Ok(pdf);
+        var query = new GetPDFWithQuestionsByRoomIdQuery(roomId);
+        var result = await _pdfQueryService.Handle(query);
+        if (result == null) return NotFound(new { message = "Room or PDF not found." });
+
+        var resource = PDFWithQuestionsResourceAssembler.ToResourceFromEntity(result);
+        return Ok(resource);
     }
 }

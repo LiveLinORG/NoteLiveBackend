@@ -57,4 +57,15 @@ public class RoomController(IRoomCommandService roomCommandService,IRoomQuerySer
         var room = await roomCommandService.Handle(endRoomCommand);
         return Ok(room);
     }
+    
+    [HttpPut("upload-pdf/{roomId:guid}")]
+    public async Task<IActionResult> UploadPDFtoRoom([FromRoute] Guid roomId, [FromBody] UploadPDFResource uploadPDFResource)
+    {
+        var uploadPDFCommand = new UploadPDFCommand(roomId, uploadPDFResource.Content);
+        var result = await roomCommandService.Handle(uploadPDFCommand);
+        if (result)
+            return Ok(new { message = "PDF uploaded successfully." });
+        else
+            return BadRequest(new { message = "Failed to upload PDF." });
+    }
 }

@@ -13,6 +13,7 @@ public class Room
     public User Creador { get; internal set; }
 
     public bool ChatActivated { get; set; }
+    [NotMapped]
     public List<Guid> UserIds { get; private set; }
         
     public PDF PDF { get; private set; }
