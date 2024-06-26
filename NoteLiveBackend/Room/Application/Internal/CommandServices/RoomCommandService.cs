@@ -52,13 +52,6 @@ public class RoomCommandService(
             throw new Exception("Room not found");
 
         room.EndRoom();
-
-        var chat = await _chatRepository.GetByRoomId(command.RoomId);
-        if (chat != null)
-        {
-            chat.isActivated = false;
-            await _chatRepository.UpdateAsync(chat); }
-
         await _roomRepository.UpdateAsync(room);
         await unitOfWork.CompleteAsync();
         return room;
@@ -66,7 +59,7 @@ public class RoomCommandService(
     public async Task<bool> Handle(CheckIfActivatedCommand command)
     {
         var room = await _roomRepository.FindByIdAsync(command.RoomId);
-        if (room == null || !room.ChatActivated)
+        if (room == null || !room.Roomstarted)
             return false;
 
         var chat = await _chatRepository.GetByRoomId(command.RoomId);
@@ -82,9 +75,8 @@ public class RoomCommandService(
         if (room == null)
             return false;
 
-        var pdf = new PDF(command.Content, command.RoomId);
+        byte[] pdf = command.Content;
         room.UploadPDF(pdf);
-        await _pdfRepository.AddAsync(pdf);
         await _roomRepository.UpdateAsync(room);
         await unitOfWork.CompleteAsync();
 

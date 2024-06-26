@@ -7,6 +7,7 @@ using NoteLiveBackend.IAM.Application.Internal.OutboundServices;
 using NoteLiveBackend.IAM.Domain.Model.Aggregates;
 using NoteLiveBackend.IAM.Infrastructure.Tokens.JWT.Configuration;
 
+
 namespace NoteLiveBackend.IAM.Infrastructure.Tokens.JWT.Services;
 
 public class TokenService(IOptions<TokenSettings> tokenSettings) : ITokenService

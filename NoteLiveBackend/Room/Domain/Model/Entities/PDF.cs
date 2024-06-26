@@ -6,20 +6,16 @@ namespace NoteLiveBackend.Room.Domain.Model.Entities;
 public class PDF
 {
     public Guid Id { get; private set; }
-    public byte[]? Content { get; private set; }
-    [NotMapped]
-    public Guid RoomId { get; private set; }
+    public byte[]? Content { get; set; }
 
-    public PDF(byte[] content, Guid _RoomId)
+
+    public PDF(byte[] content)
     {
         Id = Guid.NewGuid();
         Content = content;
-        RoomId = _RoomId;
     }
-    public PDF(Guid _RoomId)
+    public PDF()
     {
         Id = Guid.NewGuid();
-        RoomId = _RoomId;
     }
-    private PDF() { }
 }

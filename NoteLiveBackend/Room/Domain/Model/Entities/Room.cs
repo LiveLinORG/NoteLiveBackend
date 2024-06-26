@@ -11,11 +11,9 @@ namespace NoteLiveBackend.Room.Domain.Model.Entities;
         public Guid Id { get; private set; }
         public string Name { get; private set; }
         public Guid CreadorId { get; set; }
-        [NotMapped]
-        public User Creador { get; internal set; }
-        public bool ChatActivated { get; set; }
         
-        // Relaciones y colecciones
+        public User Creador { get; internal set; }
+        public bool Roomstarted { get; set; }
         public Guid? PdfId { get; set; }
         public PDF? PDF { get; private set; }
         
@@ -33,30 +31,17 @@ namespace NoteLiveBackend.Room.Domain.Model.Entities;
             Id = Guid.NewGuid();
             Name = name;
             CreadorId = creadorId;
-            ChatActivated = true;
-            PDF = new PDF(Id);
+            Roomstarted = true;
+            PDF = new PDF();
             Chat = new Chat();
             
         }
 
-        public void UploadPDF(PDF? pdf)
+        public void UploadPDF(byte[] content)
         {
-            PDF = pdf;
+            PDF.Content = content;
         }
-
-        public void AssociatePDF(IPDFCommandService pdfCommandService)
-        {
-            if (PdfId.HasValue)
-            {
-                PDF? pdfnew = pdfCommandService.associate(PdfId.Value); 
-                UploadPDF(pdfnew);
-            }
-            else
-            {
-                throw new InvalidOperationException("No PDF ID is associated with this room.");
-            }
-        }
-
+        
         public void AskQuestion(Question question)
         {
             _questions.Add(question);
@@ -77,21 +62,23 @@ namespace NoteLiveBackend.Room.Domain.Model.Entities;
 
         public void EndRoom()
         {
-            ChatActivated = false;
+            Roomstarted = false;
+            Chat.isActivated = false;
         }
 
-        public async Task ExportPDF(IPDFExportService pdfExportService)
+        public void StartRoom()
         {
-            if (PDF == null)
+            byte[] contentment = PDF.Content;
+            if (contentment!=null)
             {
-                throw new PDFExportException();
+                throw new InvalidOperationException("Room cannot be started again when a PDF is already uploaded.");
             }
-
-            await pdfExportService.ExportAsync(PDF, _questions);
+            Roomstarted = true;
+            Chat.isActivated = true;
         }
 
         public byte[] GetPDFContent()
         {
-            return PDF?.Content;
+            return PDF.Content;
         }
     }

@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NoteLiveBackend.Room.Application.Internal.CommandServices;
-using NoteLiveBackend.Room.Application.Internal.Queryservices;
 using NoteLiveBackend.Room.Domain.Model.Commands;
 using NoteLiveBackend.Room.Domain.Model.Queries;
 using NoteLiveBackend.Room.Domain.Services;
+using NoteLiveBackend.Room.Interfaces.REST.Resources;
 using NoteLiveBackend.Room.Interfaces.REST.Transform;
-using RoomCommands = NoteLiveBackend.Room.Domain.Model.Commands;
 
-namespace NoteLiveBackend.Room.Interfaces.REST.Resources;
+namespace NoteLiveBackend.Room.Interfaces.REST;
 [ApiController]
 [Route("api/[controller]")]
 public class RoomController(IRoomCommandService roomCommandService,IRoomQueryService roomQueryServices) : ControllerBase
@@ -68,4 +66,7 @@ public class RoomController(IRoomCommandService roomCommandService,IRoomQuerySer
         else
             return BadRequest(new { message = "Failed to upload PDF." });
     }
+
+    
+    
 }

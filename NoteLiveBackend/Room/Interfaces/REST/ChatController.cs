@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using NoteLiveBackend.Room.Application.Internal.Queryservices;
 using NoteLiveBackend.Room.Domain.Model.Commands;
-using NoteLiveBackend.Room.Domain.Model.Queries;
 using NoteLiveBackend.Room.Domain.Services;
+using NoteLiveBackend.Room.Interfaces.REST.Resources;
 using NoteLiveBackend.Room.Interfaces.WebSocket;
 
-namespace NoteLiveBackend.Room.Interfaces.REST.Resources;
+namespace NoteLiveBackend.Room.Interfaces.REST;
 [ApiController]
 [Route("api/[controller]")]
 public class ChatController : ControllerBase

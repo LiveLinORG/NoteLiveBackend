@@ -45,15 +45,10 @@ public class RoomRepository(AppDbContext _context,IPDFCommandService _pdfCommand
             return (null, new List<Question?>().AsReadOnly());
         }
 
-        // Associate PDF if necessary
-        room.AssociatePDF(_pdfCommandService);
-
-        // Load PDF byte array
         await _context.Entry(room)
             .Reference(r => r.PDF)
             .LoadAsync();
 
-        // Return PDF byte array and Questions list
         
         return (room.GetPDFContent(), room.Questions);
     }
