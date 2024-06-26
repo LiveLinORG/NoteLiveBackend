@@ -44,6 +44,7 @@ protected override void OnModelCreating(ModelBuilder builder)
         user.Property(u => u.FirstName).IsRequired().HasMaxLength(50);
         user.Property(u => u.LastName).IsRequired().HasMaxLength(50);
         user.Property(u => u.Email).IsRequired().HasMaxLength(100);
+        user.HasIndex(u => u.Username).IsUnique();
 
         // Un usuario puede hacer muchas preguntas
         user.HasMany(u => u.Questions)

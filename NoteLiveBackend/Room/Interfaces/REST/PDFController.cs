@@ -6,7 +6,7 @@ using NoteLiveBackend.Room.Interfaces.REST.Transform;
 namespace NoteLiveBackend.Room.Interfaces.REST;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/v1/[controller]")]
 public class PDFController : ControllerBase
 {
     private readonly IPDFQueryService _pdfQueryService;

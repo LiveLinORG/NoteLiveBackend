@@ -1,6 +1,7 @@
 
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using NoteLiveBackend.IAM.Application.Internal.CommandServices;
 using NoteLiveBackend.IAM.Application.Internal.QueryServices;
 using NoteLiveBackend.IAM.Domain.Repositories;
@@ -33,10 +34,31 @@ builder.Services.AddControllers(options =>
 });
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "My API", Version = "v1" });
-});
+
+builder.Services.AddSwaggerGen(
+    c =>
+    {
+        c.SwaggerDoc("v1",
+            new OpenApiInfo
+            {
+                Title = "LiveLin.NotelivePlatform",
+                Version = "v1",
+                Description = "LiveLin NoteLive Platform API",
+                TermsOfService = new Uri("https://notelive.netlify.app"),
+                Contact = new OpenApiContact
+                {
+                    Name = "LiveLinORG",
+                    Email = "u202210066@upc.edu.pe"
+                },
+                License = new OpenApiLicense
+                {
+                    Name = "Apache 2.0",
+                    Url = new Uri("https://www.apache.org/licenses/LICENSE-2.0.html")
+                }
+            });
+        c.EnableAnnotations();
+     
+    });
 
 // ADD DATABASE CONNECTION
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

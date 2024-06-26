@@ -7,7 +7,7 @@ using NoteLiveBackend.Room.Interfaces.WebSocket;
 
 namespace NoteLiveBackend.Room.Interfaces.REST;
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/v1/[controller]")]
 public class ChatController : ControllerBase
 {
     private readonly IHubContext<ChatHub> _hubContext;

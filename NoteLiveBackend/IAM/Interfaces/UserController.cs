@@ -28,4 +28,13 @@ public class UserController(IUserQueryServices userQueryServices) : ControllerBa
         var userResource = UserResourceFromEntityAssembler.ToResourceFromEntity(user);
         return Ok(userResource);
     }
+    
+    [HttpGet("getbyusername/{username}")]
+    public async Task<IActionResult> GetUserByUsername(string username)
+    {
+        var getUserByIdQuery = new GetUserByNameQuery(username);
+        var user = await userQueryServices.Handle(getUserByIdQuery);
+        var userResource = UserResourceFromEntityAssembler.ToResourceFromEntity(user);
+        return Ok(userResource);
+    }
 }

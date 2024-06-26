@@ -1,4 +1,5 @@
-﻿using NoteLiveBackend.IAM.Domain.Repositories;
+﻿using NoteLiveBackend.IAM.Domain.Model.Aggregates;
+using NoteLiveBackend.IAM.Domain.Repositories;
 using NoteLiveBackend.Room.Application.Internal.Queryservices;
 using NoteLiveBackend.Room.Domain.Model.Commands;
 using NoteLiveBackend.Room.Domain.Model.Entities;
@@ -25,12 +26,10 @@ public class RoomCommandService(
 
     public async Task<Domain.Model.Entities.Room?> Handle(CreateRoomCommand command)
     {
-        var room = new Domain.Model.Entities.Room(command.Name, command.ProfessorId);
+        var creador = await _userRepository.FindByIdAsync(command.ProfessorId);
+        var room = new Domain.Model.Entities.Room(command.Name, creador);
         await _roomRepository.AddSync(room);
         await unitOfWork.CompleteAsync();
-        var creador = await _userRepository.FindByIdAsync(command.ProfessorId);
-        room.Creador = creador;
-        room.CreadorId = creador.Id;
         return room;
     }
 
