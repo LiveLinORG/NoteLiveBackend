@@ -17,7 +17,7 @@ public class ChatRepository : IChatRepository
   
     public async Task<Chat?> GetByRoomId(Guid roomId)
     {
-        return _context.Chats.FirstOrDefault(c => c.RoomId == roomId);
+        return _context.Chats.FirstOrDefault(c => c.Id == roomId);
     }
 
     public Task AddSync(Chat entity)

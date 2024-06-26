@@ -2,7 +2,7 @@
 
 namespace NoteLiveBackend.Room.Domain.Services;
 
-public interface IPDFCommandService
+public interface IChatCommandService
 {
-    PDF? associate(Guid pdfId);
+
 }

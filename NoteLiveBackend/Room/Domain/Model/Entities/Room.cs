@@ -1,61 +1,84 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 using NoteLiveBackend.IAM.Domain.Model.Aggregates;
 using NoteLiveBackend.Room.Application.Internal.Outboundservices.acl;
 using NoteLiveBackend.Room.Domain.Exceptions;
+using NoteLiveBackend.Room.Domain.Services;
 
 namespace NoteLiveBackend.Room.Domain.Model.Entities;
-public class Room
-{
-    public Guid Id { get; private set; }
-    public string Name { get; private set; }
-    public Guid CreadorId  { get; set; }
-    public List<Question> Questions { get; private set; }
-    public User Creador { get; internal set; }
-
-    public bool ChatActivated { get; set; }
-    [NotMapped]
-    public List<Guid> UserIds { get; private set; }
+ public class Room
+    {
+        public Guid Id { get; private set; }
+        public string Name { get; private set; }
+        public Guid CreadorId { get; set; }
         
-    public PDF PDF { get; private set; }
+        public User Creador { get; internal set; }
+        public bool Roomstarted { get; set; }
+        public Guid? PdfId { get; set; }
+        public PDF? PDF { get; private set; }
         
-    public Chat Chat { get; set; }
+        public Guid? ChatId { get; set; }
+        public Chat Chat { get; set; }
+        
+        private readonly List<User> _users = new List<User>();
+        public IReadOnlyList<User> Users => _users.AsReadOnly(); 
+        
+        private readonly List<Question> _questions = new List<Question>();
+        public IReadOnlyList<Question> Questions => _questions.AsReadOnly();
 
-    public Room(string name, Guid creadorId)
-    {
-        Id = Guid.NewGuid();
-        Name = name;
-        CreadorId  = creadorId;
-        Questions = new List<Question>();
-        UserIds = new List<Guid>();
-        ChatActivated = true;
-    }
-
-    public void UploadPDF(PDF pdf)
-    {
-        PDF = pdf;
-    }
-
-    public void AskQuestion(Question question)
-    {
-        Questions.Add(question);
-    }
-
-    public void AddUser(Guid userId)
-    {
-        UserIds.Add(userId);
-    }
-
-    public void EndRoom()
-    {
-        ChatActivated = false;
-    }
-    public async Task ExportPDF(IPDFExportService pdfExportService)
-    {
-        if (PDF == null)
+        public Room(string name, Guid creadorId)
         {
-            throw new PDFExportException();
+            Id = Guid.NewGuid();
+            Name = name;
+            CreadorId = creadorId;
+            Roomstarted = true;
+            PDF = new PDF();
+            Chat = new Chat();
+            
         }
 
-        await pdfExportService.ExportAsync(PDF, Questions);
+        public void UploadPDF(byte[] content)
+        {
+            PDF.Content = content;
+        }
+        
+        public void AskQuestion(Question question)
+        {
+            _questions.Add(question);
+        }
+
+        public void AddUser(User user)
+        {
+            if (!_users.Contains(user))
+            {
+                _users.Add(user);
+            }
+        }
+
+        public void RemoveUser(User user)
+        {
+            _users.Remove(user);
+        }
+
+        public void EndRoom()
+        {
+            Roomstarted = false;
+            Chat.isActivated = false;
+        }
+
+        public void StartRoom()
+        {
+            byte[] contentment = PDF.Content;
+            if (contentment!=null)
+            {
+                throw new InvalidOperationException("Room cannot be started again when a PDF is already uploaded.");
+            }
+            Roomstarted = true;
+            Chat.isActivated = true;
+        }
+
+        public byte[] GetPDFContent()
+        {
+            return PDF.Content;
+        }
     }
-}

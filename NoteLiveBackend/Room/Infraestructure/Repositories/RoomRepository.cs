@@ -1,17 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NoteLiveBackend.Room.Application.Internal.CommandServices;
 using NoteLiveBackend.Room.Domain.Exceptions;
+using NoteLiveBackend.Room.Domain.Model.Entities;
 using NoteLiveBackend.Room.Domain.Repositories;
+using NoteLiveBackend.Room.Domain.Services;
 using NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Configuration;
 using NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Repositories;
 
 namespace NoteLiveBackend.Room.Infraestructure.Repositories;
 
-public class RoomRepository(AppDbContext _context) : BaseRepository<Domain.Model.Entities.Room>(_context),IRoomRepository
-{
+public class RoomRepository(AppDbContext _context,IPDFCommandService _pdfCommandService) : BaseRepository<Domain.Model.Entities.Room>(_context),IRoomRepository
+{        
+    
+
     // Find Room by Id
     public new async Task<Domain.Model.Entities.Room?> FindByIdAsync(Guid id) =>
         await _context.Set<Domain.Model.Entities.Room>().FirstOrDefaultAsync(r => r.Id == id);
+
 
     // Find Room by Id including Chat
     public async Task<Domain.Model.Entities.Room?> FindByIdWithChatAsync(Guid id) =>
@@ -25,13 +30,30 @@ public class RoomRepository(AppDbContext _context) : BaseRepository<Domain.Model
             .Include(r => r.Chat)
             .Include(r => r.PDF)
             .FirstOrDefaultAsync(r => r.Id == id);
+
+  
+
     // Find Room by Id including PDF and Questions
-    public async Task<Domain.Model.Entities.Room?> FindByIdWithPdfAndQuestionsAsync(Guid id) =>
-        await _context.Set<Domain.Model.Entities.Room>()
-            .Include(r => r.PDF)
+    public async Task<(byte[]?, IReadOnlyList<Question?>)> FindPdfAndQuestionsAsync(Guid id)
+    {
+        var room = await _context.Set<Domain.Model.Entities.Room>()
             .Include(r => r.Questions)
             .FirstOrDefaultAsync(r => r.Id == id);
-    
+
+        if (room == null)
+        {
+            return (null, new List<Question?>().AsReadOnly());
+        }
+
+        await _context.Entry(room)
+            .Reference(r => r.PDF)
+            .LoadAsync();
+
+        
+        return (room.GetPDFContent(), room.Questions);
+    }
+
+ 
     
     public async Task<IEnumerable<Domain.Model.Entities.Room>> FindByPdfNameAsync(string searchText)
     {

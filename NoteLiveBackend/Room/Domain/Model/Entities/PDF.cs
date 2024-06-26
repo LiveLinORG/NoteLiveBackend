@@ -1,17 +1,21 @@
-﻿namespace NoteLiveBackend.Room.Domain.Model.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.CompilerServices;
+
+namespace NoteLiveBackend.Room.Domain.Model.Entities;
 
 public class PDF
 {
     public Guid Id { get; private set; }
-    public byte[] Content { get; private set; }
-    public Guid RoomId { get; private set; }
+    public byte[]? Content { get; set; }
 
-    public PDF(byte[] content, Room _room)
+
+    public PDF(byte[] content)
     {
         Id = Guid.NewGuid();
         Content = content;
-        RoomId = _room.Id;
     }
-    private PDF() { }
-    public Room Room { get; set; }
+    public PDF()
+    {
+        Id = Guid.NewGuid();
+    }
 }

@@ -8,4 +8,9 @@ namespace NoteLiveBackend.Room.Infraestructure.Repositories;
 public class PDFRepository : BaseRepository<PDF>, IPDFRepository
 {
     public PDFRepository(AppDbContext context) : base(context) { }
+    public PDF? FindPDFByIdSync(Guid pdfId)
+    {
+        return Context.Set<PDF>()
+            .FirstOrDefault(p => p.Id == pdfId);
+    }
 }

@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NoteLiveBackend.Room.Application.Internal.CommandServices;
-using NoteLiveBackend.Room.Application.Internal.Queryservices;
-using NoteLiveBackend.Room.Domain.Model.Commands;
-using NoteLiveBackend.Room.Domain.Model.Queries;
 using NoteLiveBackend.Room.Domain.Services;
+using NoteLiveBackend.Room.Interfaces.REST.Resources;
 using NoteLiveBackend.Room.Interfaces.REST.Transform;
 
-namespace NoteLiveBackend.Room.Interfaces.REST.Resources;
+namespace NoteLiveBackend.Room.Interfaces.REST;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -22,7 +19,8 @@ public class QuestionController : ControllerBase
 
     }
 
-
+    
+    //RECIBE public record CreateQuestionResource(Guid UserId, Guid RoomId, string Text);
     [HttpPost("postQuestion")]
     public async Task<IActionResult> PostQuestion([FromBody] CreateQuestionResource createQuestionResource)
     {
