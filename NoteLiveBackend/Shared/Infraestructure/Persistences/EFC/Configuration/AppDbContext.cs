@@ -32,39 +32,69 @@ protected override void OnModelCreating(ModelBuilder builder)
 {
     base.OnModelCreating(builder);
 
-// Configuración de la entidad User
-builder.Entity<User>().ToTable("Users");
-builder.Entity<User>().HasKey(u => u.Id);
-builder.Entity<User>().Property(u => u.Id).IsRequired();
-builder.Entity<User>().Property(u => u.Username).IsRequired();
-builder.Entity<User>().Property(u => u.PasswordHash).IsRequired();
-builder.Entity<User>().Property(u => u.Role).IsRequired();
-builder.Entity<User>().Property(u => u.FirstName).IsRequired();
-builder.Entity<User>().Property(u => u.LastName).IsRequired();
-builder.Entity<User>().Property(u => u.Email).IsRequired();
+ // Configuración de la entidad User
+    builder.Entity<User>(user =>
+    {
+        user.ToTable("Users");
+        user.HasKey(u => u.Id);
+        user.Property(u => u.Id).IsRequired();
+        user.Property(u => u.Username).IsRequired().HasMaxLength(20);
+        user.Property(u => u.PasswordHash).IsRequired().HasMaxLength(100);
+        user.Property(u => u.Role).IsRequired().HasMaxLength(20);
+        user.Property(u => u.FirstName).IsRequired().HasMaxLength(50);
+        user.Property(u => u.LastName).IsRequired().HasMaxLength(50);
+        user.Property(u => u.Email).IsRequired().HasMaxLength(100);
 
-// Configuración de la entidad Question
-builder.Entity<Question>().ToTable("Questions");
-builder.Entity<Question>().HasKey(q => q.Id);
-builder.Entity<Question>().Property(q => q.Id).IsRequired();
-builder.Entity<Question>().Property(q => q.Text).IsRequired();
-builder.Entity<Question>().Property(q => q.Likes).IsRequired();
-builder.Entity<Question>().Property(q => q.UserId).IsRequired();
-builder.Entity<Question>().HasOne(q => q.User)
-                           .WithMany()
-                           .HasForeignKey(q => q.UserId)
-                           .HasConstraintName("FK_Question_User");
+        // Un usuario puede hacer muchas preguntas
+        user.HasMany(u => u.Questions)
+            .WithOne(q => q.User)
+            .HasForeignKey(q => q.UserId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .HasConstraintName("FK_User_Questions");
+    });
 
-// Configuración de la entidad PDF
-builder.Entity<PDF>().ToTable("PDFs");
-builder.Entity<PDF>().HasKey(p => p.Id);
-builder.Entity<PDF>().Property(p => p.Id).IsRequired();
-builder.Entity<PDF>().Property(p => p.Content).IsRequired();
+    // Configuración de la entidad Question
+    builder.Entity<Question>(question =>
+    {
+        question.ToTable("Questions");
+        question.HasKey(q => q.Id);
+        question.Property(q => q.Id).IsRequired();
+        question.Property(q => q.Text).IsRequired();
+        question.Property(q => q.Likes).IsRequired();
+        question.Property(q => q.UserId).IsRequired();
+        question.Property(q => q.RoomId).IsRequired();
 
-// Configuración de la entidad Chat
-builder.Entity<Chat>().ToTable("Chats");
-builder.Entity<Chat>().HasKey(c => c.Id);
-builder.Entity<Chat>().Property(c => c.Id).IsRequired();
+        // Una pregunta no puede tener varios usuarios (ya configurado en User)
+        question.HasOne(q => q.User)
+            .WithMany(u => u.Questions)
+            .HasForeignKey(q => q.UserId)
+            .OnDelete(DeleteBehavior.Restrict)
+            .HasConstraintName("FK_Question_User");
+
+        // Una room puede tener varias preguntas
+        question.HasOne(q => q.Room)
+            .WithMany(r => r.Questions)
+            .HasForeignKey(q => q.RoomId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .HasConstraintName("FK_Question_Room");
+    });
+
+    // Configuración de la entidad PDF
+    builder.Entity<PDF>(pdf =>
+    {
+        pdf.ToTable("PDFs");
+        pdf.HasKey(p => p.Id);
+        pdf.Property(p => p.Id).IsRequired();
+        pdf.Property(p => p.Content).IsRequired(false);
+    });
+
+    // Configuración de la entidad Chat
+    builder.Entity<Chat>(chat =>
+    {
+        chat.ToTable("Chats");
+        chat.HasKey(c => c.Id);
+        chat.Property(c => c.Id).IsRequired();
+    });
 
     // Configuración de la entidad Room
     builder.Entity<Room.Domain.Model.Entities.Room>(room =>
@@ -76,20 +106,20 @@ builder.Entity<Chat>().Property(c => c.Id).IsRequired();
         room.Property(r => r.CreadorId).IsRequired();
 
         // Relación con PDF
-        room.Property(r => r.PdfId).IsRequired(false);
+        room.Property(r => r.PdfId).IsRequired();
         room.HasOne(r => r.PDF)
             .WithOne()
             .HasForeignKey<Room.Domain.Model.Entities.Room>(r => r.PdfId)
             .HasConstraintName("FK_Room_PDF");
 
-
-        // Relación con Creador (User)
+       // Relación con Creador (User)
         room.HasOne(r => r.Creador)
-            .WithMany()
-            .HasForeignKey(r => r.CreadorId)
-            .HasConstraintName("FK_Room_Creator");
-
-
+            .WithOne()  
+            .HasForeignKey<Room.Domain.Model.Entities.Room>(r => r.CreadorId)  
+            .OnDelete(DeleteBehavior.Restrict)      
+            .HasConstraintName("FK_Room_Creator");  
+        
+        
         // Relación muchos a muchos con Users
         room.HasMany(r => r.Users)
             .WithMany(u => u.Rooms)
@@ -115,7 +145,7 @@ builder.Entity<Chat>().Property(c => c.Id).IsRequired();
     });
 
     // Usar convención de nombres en snake_case
-    builder.UseSnakeCaseNamingConvention();
+    //builder.UseSnakeCaseNamingConvention();
 }
     }
 }

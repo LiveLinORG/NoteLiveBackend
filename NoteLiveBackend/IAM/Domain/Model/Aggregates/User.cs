@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 using NoteLiveBackend.IAM.Domain.Model.Commands;
+using NoteLiveBackend.Room.Domain.Model.Entities;
 
 namespace NoteLiveBackend.IAM.Domain.Model.Aggregates
 {
@@ -26,8 +28,13 @@ public class User
     
     [MaxLength(20)]
     public string Role { get; private set; }
-
+    [NotMapped]
+    public List<Question> Questions{
+        get;
+        set;
+    }
     // Propiedad de navegación para la relación con Rooms
+    [JsonIgnore]
     public ICollection<Room.Domain.Model.Entities.Room> Rooms { get; set; } = new List<Room.Domain.Model.Entities.Room>();
     public User(string username, string passwordHash, string firstName, string lastName, string email, string role = "alumno")
     {
@@ -38,6 +45,7 @@ public class User
         LastName = lastName.Length <= 50 ? lastName : throw new ArgumentException("Last name must be 50 characters or less.");
         Email = email.Length <= 100 ? email : throw new ArgumentException("Email must be 100 characters or less.");
         Role = role.Length <= 20 ? role : throw new ArgumentException("Role must be 20 characters or less.");
+        Questions = new List<Question>();
     }
 
     public User() : this(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty)

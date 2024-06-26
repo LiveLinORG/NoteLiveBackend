@@ -1,4 +1,5 @@
 
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using NoteLiveBackend.IAM.Application.Internal.CommandServices;
 using NoteLiveBackend.IAM.Application.Internal.QueryServices;
@@ -17,6 +18,7 @@ using NoteLiveBackend.Room.Application.Internal.CommandServices;
 using NoteLiveBackend.Room.Application.Internal.Queryservices;
 using NoteLiveBackend.Room.Domain.Repositories;
 using NoteLiveBackend.Room.Domain.Services;
+using NoteLiveBackend.Room.Interfaces.REST.Transform;
 using NoteLiveBackend.Room.Interfaces.WebSocket;
 
 
@@ -26,6 +28,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers(options =>
 {
+
     options.Conventions.Add(new KebabCaseRouteNamingConvention());
 });
 
@@ -98,6 +101,8 @@ builder.Services.AddScoped<IRoomCommandService, RoomCommandService>();
 builder.Services.AddScoped<IUserCommandService, UserCommandService>();
 builder.Services.AddScoped<IQuestionCommandService, QuestionCommandService>();
 builder.Services.AddScoped<IPDFCommandService, PDFCommandService>();
+builder.Services.AddScoped<IChatCommandService, ChatCommandService>();
+
 
 
 builder.Services.AddScoped<IPDFQueryService, PDFQueryService>();

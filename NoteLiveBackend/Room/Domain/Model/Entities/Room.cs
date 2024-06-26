@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 using NoteLiveBackend.IAM.Domain.Model.Aggregates;
 using NoteLiveBackend.Room.Application.Internal.Outboundservices.acl;
 using NoteLiveBackend.Room.Domain.Exceptions;
@@ -10,6 +11,7 @@ namespace NoteLiveBackend.Room.Domain.Model.Entities;
         public Guid Id { get; private set; }
         public string Name { get; private set; }
         public Guid CreadorId { get; set; }
+        [NotMapped]
         public User Creador { get; internal set; }
         public bool ChatActivated { get; set; }
         
@@ -33,7 +35,7 @@ namespace NoteLiveBackend.Room.Domain.Model.Entities;
             CreadorId = creadorId;
             ChatActivated = true;
             PDF = new PDF(Id);
-            Chat = new Chat(Id);
+            Chat = new Chat();
             
         }
 

@@ -17,6 +17,7 @@ public class RoomRepository(AppDbContext _context,IPDFCommandService _pdfCommand
     public new async Task<Domain.Model.Entities.Room?> FindByIdAsync(Guid id) =>
         await _context.Set<Domain.Model.Entities.Room>().FirstOrDefaultAsync(r => r.Id == id);
 
+
     // Find Room by Id including Chat
     public async Task<Domain.Model.Entities.Room?> FindByIdWithChatAsync(Guid id) =>
         await _context.Set<Domain.Model.Entities.Room>()

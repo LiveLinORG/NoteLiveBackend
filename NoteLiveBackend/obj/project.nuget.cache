@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "CfBJMZlGpImUFpvgrq0InJZgCrEfZ8XSuteYcl8dXIZ94SkyA88yzObrlJrxoQR6lFkVIO4sDhGw2v3BGbE9VQ==",
+  "dgSpecHash": "SVZKcl7YemOWceYUuzFrxcIfUeUhxglRQnICXBXUqOpeiZcn+GWtO3MtVx/f+Fqpnzh1UqQwqHVwAYOoZ5KtWg==",
   "success": true,
   "projectFilePath": "E:\\2024 CICLO 5\\Aplicaciones Web\\NoteLiveWebApp\\NoteLiveBackend\\NoteLiveBackend\\NoteLiveBackend.csproj",
   "expectedPackageFiles": [
@@ -58,6 +58,7 @@
     "C:\\Users\\ADRIAN\\.nuget\\packages\\humanizer.core.zh-cn\\2.14.1\\humanizer.core.zh-cn.2.14.1.nupkg.sha512",
     "C:\\Users\\ADRIAN\\.nuget\\packages\\humanizer.core.zh-hans\\2.14.1\\humanizer.core.zh-hans.2.14.1.nupkg.sha512",
     "C:\\Users\\ADRIAN\\.nuget\\packages\\humanizer.core.zh-hant\\2.14.1\\humanizer.core.zh-hant.2.14.1.nupkg.sha512",
+    "C:\\Users\\ADRIAN\\.nuget\\packages\\jnm2.referenceassemblies.net35\\1.0.1\\jnm2.referenceassemblies.net35.1.0.1.nupkg.sha512",
     "C:\\Users\\ADRIAN\\.nuget\\packages\\k4os.compression.lz4\\1.3.5\\k4os.compression.lz4.1.3.5.nupkg.sha512",
     "C:\\Users\\ADRIAN\\.nuget\\packages\\k4os.compression.lz4.streams\\1.3.5\\k4os.compression.lz4.streams.1.3.5.nupkg.sha512",
     "C:\\Users\\ADRIAN\\.nuget\\packages\\k4os.hash.xxhash\\1.0.8\\k4os.hash.xxhash.1.0.8.nupkg.sha512",
