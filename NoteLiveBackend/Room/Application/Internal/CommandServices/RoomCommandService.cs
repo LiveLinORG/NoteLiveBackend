@@ -72,13 +72,26 @@ public class RoomCommandService(
     {
         var room = await _roomRepository.FindByIdAsync(command.RoomId);
         if (room == null)
-            return false;
+            throw new Exception("Room not found");
 
-        byte[] pdf = command.Content;
-        room.UploadPDF(pdf);
+        if (room.PDF == null)
+        {
+            var pdf = new PDF(command.Content);
+            await _pdfRepository.AddAsync(pdf);
+            room.PdfId = pdf.Id;
+            room.PDF = pdf;
+        }
+        else
+        {
+            room.PDF.Content = command.Content;
+            await _pdfRepository.UpdateAsync(room.PDF);
+        }
+
         await _roomRepository.UpdateAsync(room);
         await unitOfWork.CompleteAsync();
-
         return true;
     }
+
+
+
 }

@@ -8,7 +8,6 @@ public class PDF
     public Guid Id { get; private set; }
     public byte[]? Content { get; set; }
 
-
     public PDF(byte[] content)
     {
         Id = Guid.NewGuid();

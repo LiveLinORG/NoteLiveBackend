@@ -12,7 +12,7 @@ namespace NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Configuration
     {
         public DbSet<Room.Domain.Model.Entities.Room> Rooms { get; set; }
         public DbSet<Question> Questions { get; set; }
-        public DbSet<PDF> PDFs { get; set; }
+        public DbSet<PDF?> PDFs { get; set; }
         public DbSet<Chat> Chats { get; set; }
         public DbSet<User> Usuarios { get; set; }
 
@@ -105,20 +105,21 @@ protected override void OnModelCreating(ModelBuilder builder)
         room.Property(r => r.Id).IsRequired();
         room.Property(r => r.Name).IsRequired();
         room.Property(r => r.CreadorId).IsRequired();
+        
+        // Relación con PDF (PDF)
 
-        // Relación con PDF
-        room.Property(r => r.PdfId).IsRequired();
+        room.Property(r => r.PdfId).IsRequired(false);
         room.HasOne(r => r.PDF)
             .WithOne()
             .HasForeignKey<Room.Domain.Model.Entities.Room>(r => r.PdfId)
-            .HasConstraintName("FK_Room_PDF");
+            .HasConstraintName("FK_Room_PDF")
+            .IsRequired(false);
 
-       // Relación con Creador (User)
         room.HasOne(r => r.Creador)
-            .WithOne()  
-            .HasForeignKey<Room.Domain.Model.Entities.Room>(r => r.CreadorId)  
+            .WithMany()  
+            .HasForeignKey(r => r.CreadorId)  
             .OnDelete(DeleteBehavior.Restrict)      
-            .HasConstraintName("FK_Room_Creator");  
+            .HasConstraintName("FK_Room_Creator"); 
         
         
         // Relación muchos a muchos con Users

@@ -13,4 +13,8 @@ public class PDFRepository : BaseRepository<PDF>, IPDFRepository
         return Context.Set<PDF>()
             .FirstOrDefault(p => p.Id == pdfId);
     }
+    public async Task<PDF?> GetPDFByIdAsync(Guid pdfId)
+    {
+        return await Context.PDFs.FindAsync(pdfId);
+    }
 }

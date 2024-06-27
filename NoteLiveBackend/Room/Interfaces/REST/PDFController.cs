@@ -26,5 +26,15 @@ public class PDFController : ControllerBase
         var resource = PDFWithQuestionsResourceAssembler.ToResourceFromEntity(result);
         return Ok(resource);
     }
+    [HttpGet("getbyid/{pdfId:guid}")]
+    public async Task<IActionResult> GetPDFById([FromRoute] Guid pdfId)
+    {
+        var query = new GetPDFByIdQuery(pdfId); 
+        var result = await _pdfQueryService.Handle(query);
+        if (result == null)
+            return NotFound(new { message = "PDF not found." });
 
+        var resource = PDFResourceAssembler.ToResourceFromEntity(result);
+        return Ok(resource);
+    }
 }

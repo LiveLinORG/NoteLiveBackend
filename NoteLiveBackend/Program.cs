@@ -99,8 +99,8 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(corsPolicyBuilder =>
     {
-        corsPolicyBuilder.WithOrigins("http://localhost:8080", "http://190.239.59.223:44353", "http://190.239.59.223:8080","http://192.168.1.34:8080/professorSession"
-                ,"http://192.168.1.34:8080","http://192.168.1.34:8080/studentSession")
+        corsPolicyBuilder.WithOrigins("http://localhost:8080", "http://190.239.59.168:44353", "http://190.239.59.168:8080","http://192.168.1.34:8080/professorSession"
+                ,"http://190.239.59.168:8080","http://localhost:8080/studentSession")
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();

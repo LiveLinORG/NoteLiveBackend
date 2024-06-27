@@ -19,6 +19,10 @@ namespace NoteLiveBackend.IAM.Domain.Model.Aggregates
 
         }
 
+        public User(Guid id) : this()
+        {
+            Id = id;
+        }
 
         public Guid Id { get; private set; }
 

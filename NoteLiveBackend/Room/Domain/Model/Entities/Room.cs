@@ -16,7 +16,7 @@ namespace NoteLiveBackend.Room.Domain.Model.Entities;
         public User? Creador { get; internal set; }
         public bool Roomstarted { get; set; }
         public Guid? PdfId { get; set; }
-        public PDF? PDF { get; private set; }
+        public PDF? PDF { get; set; }
         
         public Guid? ChatId { get; set; }
         public Chat Chat { get; set; }
@@ -33,9 +33,8 @@ namespace NoteLiveBackend.Room.Domain.Model.Entities;
             Name = name;
             CreadorId = creadorId;
             Roomstarted = false;
-            PDF = new PDF();
             Chat = new Chat();
-            Creador = new User();
+            Creador = new User(creadorId);
         }
         public Room(string name, User creador)
         {
@@ -49,9 +48,23 @@ namespace NoteLiveBackend.Room.Domain.Model.Entities;
         }
         public void UploadPDF(byte[] content)
         {
-            PDF.Content = content;
+            if (PDF == null)
+            {
+                PDF = new PDF(content);
+                PdfId = PDF.Id;
+            }
+            else
+            {
+                PDF.Content = content;
+            }
         }
 
+        public void ActualizarPDF(PDF content)
+        {
+
+            PDF = content;
+
+        }
       
         public void AskQuestion(Question question)
         {

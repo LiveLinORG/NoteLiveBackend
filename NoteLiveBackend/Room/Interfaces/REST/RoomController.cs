@@ -57,14 +57,23 @@ public class RoomController(IRoomCommandService roomCommandService,IRoomQuerySer
     }
     
     [HttpPut("upload-pdf/{roomId:guid}")]
-    public async Task<IActionResult> UploadPDFtoRoom([FromRoute] Guid roomId, [FromBody] UploadPDFResource uploadPDFResource)
+    public async Task<IActionResult> UploadPDFtoRoom([FromRoute] Guid roomId, [FromForm] IFormFile Content)
     {
-        var uploadPDFCommand = new UploadPDFCommand(roomId, uploadPDFResource.Content);
-        var result = await roomCommandService.Handle(uploadPDFCommand);
-        if (result)
-            return Ok(new { message = "PDF uploaded successfully." });
-        else
-            return BadRequest(new { message = "Failed to upload PDF." });
+        if (Content == null || Content.Length == 0)
+        {
+            return BadRequest(new { message = "No file uploaded." });
+        }
+
+        using (var memoryStream = new MemoryStream())
+        {
+            await Content.CopyToAsync(memoryStream);
+            var uploadPDFCommand = new UploadPDFCommand(roomId, memoryStream.ToArray());
+            var result = await roomCommandService.Handle(uploadPDFCommand);
+            if (result)
+                return Ok(new { message = "PDF uploaded successfully." });
+            else
+                return BadRequest(new { message = "Failed to upload PDF." });
+        }
     }
 
     
