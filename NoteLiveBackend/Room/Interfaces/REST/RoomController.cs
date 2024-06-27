@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NoteLiveBackend.IAM.Interfaces.Transform;
 using NoteLiveBackend.Room.Domain.Model.Commands;
 using NoteLiveBackend.Room.Domain.Model.Queries;
 using NoteLiveBackend.Room.Domain.Services;
@@ -42,10 +43,10 @@ public class RoomController(IRoomCommandService roomCommandService,IRoomQuerySer
     [HttpPost("{userId:guid}")]
     public async Task<IActionResult> AddUserToRoom([FromBody] AddUserToRoomResource addUserToRoomResource, [FromRoute] Guid userId)
     {
+
         var addUserToRoomCommand = AddUserToRoomCommandFromResourceAssembler.ToCommandFromResource(addUserToRoomResource, userId);
         var room = await roomCommandService.Handle(addUserToRoomCommand);
-        return CreatedAtAction(nameof(GetRoomById), new { tutorialIdentifier = room.Id },
-            room);
+        return Ok(room);
     }
 
     [HttpPut("{roomId:guid}")]
@@ -74,8 +75,29 @@ public class RoomController(IRoomCommandService roomCommandService,IRoomQuerySer
             else
                 return BadRequest(new { message = "Failed to upload PDF." });
         }
+        
+    }
+    
+    [HttpGet("byname/{roomName}")]
+    public async Task<IActionResult> GetRoomByName([FromRoute] string roomName)
+    {
+        var room = await roomQueryServices.Handle(new GetRoomByNameQuery(roomName));
+        if (room is null)
+            return NotFound(); 
+        var resource = RoomResourceFromEntityAssembler.ToResourceFromEntity(room);
+        return Ok(resource);
     }
 
+    // Otros métodos del controlador
+
+    [HttpGet("{roomId:guid}/users")]
+    public async Task<IActionResult> GetUsersByRoomId([FromRoute] Guid roomId)
+    {
+        var query = new GetUsersByRoomIdQuery(roomId);
+        var users = await roomQueryServices.Handle(query);
+        var resources = users.Select(UserResourceFromEntityAssembler.ToResourceFromEntity);
+        return Ok(resources);
+    }
     
     
 }

@@ -41,9 +41,7 @@ namespace NoteLiveBackend.IAM.Domain.Model.Aggregates
         public string Role { get; private set; } = role;
 
         // Propiedades de navegación para la relación con Rooms y Questions
-        [JsonIgnore]
-        public ICollection<Room.Domain.Model.Entities.Room> Rooms { get; set; } =
-            new List<Room.Domain.Model.Entities.Room>();
+
 
         public List<Question> Questions { get; set; } = new List<Question>();
 

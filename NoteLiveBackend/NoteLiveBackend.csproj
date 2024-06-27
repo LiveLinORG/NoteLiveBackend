@@ -32,6 +32,7 @@
 
     <ItemGroup>
       <Folder Include="Room\Application\Internal\Eventhandlers\" />
+      <Folder Include="Room\Domain\Model\Aggregates\" />
       <Folder Include="Room\Domain\Model\Events\" />
     </ItemGroup>
 

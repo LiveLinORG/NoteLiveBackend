@@ -3,6 +3,7 @@ using NoteLiveBackend.IAM.Domain.Repositories;
 using NoteLiveBackend.Room.Application.Internal.Queryservices;
 using NoteLiveBackend.Room.Domain.Model.Commands;
 using NoteLiveBackend.Room.Domain.Model.Entities;
+using NoteLiveBackend.Room.Domain.Model.Queries;
 using NoteLiveBackend.Room.Domain.Repositories;
 using NoteLiveBackend.Room.Domain.Services;
 using NoteLiveBackend.Shared.Domain.Repositories;
@@ -35,12 +36,26 @@ public class RoomCommandService(
 
     public async Task<Domain.Model.Entities.Room?> Handle(AddUserToRoomCommand command)
     {
-        var room = await _roomRepository.FindByIdAsync(command.RoomId);
+        var room = await _roomRepository.GetRoomWithUsersAsync(command.RoomId);
         if (room == null)
-            throw new Exception("Room not found");
-        var user = await _userRepository.FindByIdAsync(command.UserId);
-        if (user != null) room.AddUser(user); //tal vez de error
-        await _roomRepository.UpdateAsync(room);
+        {
+            // Manejar caso donde la sala no existe
+            return null;
+        }
+
+        var user = await _userRepository.GetByIdAsync(command.UserId);
+        if (user == null)
+        {
+            // Manejar caso donde el usuario no existe
+            return null;
+        }
+
+        if (!room.Users.Any(u => u.Id == command.UserId))
+        {
+            room.Users.Add(user);
+            await _roomRepository.SaveAsync();
+        }
+
         return room;
     }
 
@@ -67,7 +82,7 @@ public class RoomCommandService(
 
         return true;
     }
-    
+
     public async Task<bool> Handle(UploadPDFCommand command)
     {
         var room = await _roomRepository.FindByIdAsync(command.RoomId);

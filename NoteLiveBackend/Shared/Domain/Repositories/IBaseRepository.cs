@@ -11,6 +11,7 @@ public interface IBaseRepository<TEntity>
     Task UpdateAsync(TEntity entity);
     Task AddSync(TEntity entity);
 
+
     void Update(TEntity entity);
 
     void Remove(TEntity entity);

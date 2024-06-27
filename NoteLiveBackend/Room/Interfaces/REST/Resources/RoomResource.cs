@@ -8,7 +8,6 @@ public record RoomResource(
     string Name,
     Guid ProfessorId,
     IReadOnlyList<Question> Questions,
-    User Creador,
-    IReadOnlyList<User> UserIds,
+    ICollection<User> UserIds,
     Guid? pdfId,
     Chat Chat);

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NoteLiveBackend.IAM.Domain.Model.Aggregates;
 using NoteLiveBackend.Room.Application.Internal.CommandServices;
 using NoteLiveBackend.Room.Domain.Exceptions;
 using NoteLiveBackend.Room.Domain.Model.Entities;
@@ -17,7 +18,10 @@ public class RoomRepository(AppDbContext _context,IPDFCommandService _pdfCommand
     public new async Task<Domain.Model.Entities.Room?> FindByIdAsync(Guid id) =>
         await _context.Set<Domain.Model.Entities.Room>().FirstOrDefaultAsync(r => r.Id == id);
 
-
+    public async Task<Domain.Model.Entities.Room?> FindByNameAsync(string roomName)
+    {
+        return await _context.Rooms.FirstOrDefaultAsync(r => r.Name == roomName);
+    }
     // Find Room by Id including Chat
     public async Task<Domain.Model.Entities.Room?> FindByIdWithChatAsync(Guid id) =>
         await _context.Set<Domain.Model.Entities.Room>()
@@ -70,4 +74,27 @@ public class RoomRepository(AppDbContext _context,IPDFCommandService _pdfCommand
         return text.Contains(searchText);
     }
   
+    public async Task LoadUsersAsync(Domain.Model.Entities.Room room)
+    {
+        await _context.Entry(room)
+            .Collection(r => r.Users)
+            .LoadAsync();
+    }
+    public async Task<Domain.Model.Entities.Room> GetRoomWithUsersAsync(Guid roomId)
+    {
+        return await _context.Rooms.Include(r => r.Users).FirstOrDefaultAsync(r => r.Id == roomId);
+    }
+    //usar este?
+    public async Task<IEnumerable<User>> GetUsersByRoomIdAsync(Guid roomId)
+    {
+        return await _context.Rooms
+            .Where(r => r.Id == roomId)
+            .SelectMany(r => r.Users)
+            .ToListAsync();
+    }
+
+    public async Task SaveAsync()
+    {
+        await _context.SaveChangesAsync();
+    }
 }

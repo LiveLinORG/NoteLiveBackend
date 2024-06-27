@@ -10,7 +10,7 @@ namespace NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Configuration
 
     public class AppDbContext : DbContext
     {
-        public DbSet<Room.Domain.Model.Entities.Room> Rooms { get; set; }
+        public DbSet<Room.Domain.Model.Entities.Room?> Rooms { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<PDF?> PDFs { get; set; }
         public DbSet<Chat> Chats { get; set; }
@@ -120,32 +120,11 @@ protected override void OnModelCreating(ModelBuilder builder)
             .HasForeignKey(r => r.CreadorId)  
             .OnDelete(DeleteBehavior.Restrict)      
             .HasConstraintName("FK_Room_Creator"); 
-        
-        
-        // Relación muchos a muchos con Users
-        room.HasMany(r => r.Users)
-            .WithMany(u => u.Rooms)
-            .UsingEntity<Dictionary<string, object>>(
-                "RoomUsers",
-                j => j
-                    .HasOne<User>()
-                    .WithMany()
-                    .HasForeignKey("UserId")
-                    .HasConstraintName("FK_RoomUser_User"),
-                j => j
-                    .HasOne<Room.Domain.Model.Entities.Room>()
-                    .WithMany()
-                    .HasForeignKey("RoomId")
-                    .HasConstraintName("FK_RoomUser_Room"),
-                j =>
-                {
-                    j.HasKey("RoomId", "UserId");
-                    j.ToTable("RoomUsers");
-                    j.HasIndex("RoomId", "UserId").HasDatabaseName("IX_RoomUser_Composite");
-                }
-            );
+       
+        room .HasMany(r => r.Users)
+            .WithMany()
+            .UsingEntity(j => j.ToTable("RoomUsers")); 
     });
-
     // Usar convención de nombres en snake_case
     //builder.UseSnakeCaseNamingConvention();
 }

@@ -13,6 +13,7 @@ namespace NoteLiveBackend.Room.Domain.Model.Entities;
         public Guid Id { get; private set; }
         public string Name { get; private set; }
         public Guid CreadorId { get; set; }
+        [NotMapped]
         public User? Creador { get; internal set; }
         public bool Roomstarted { get; set; }
         public Guid? PdfId { get; set; }
@@ -21,9 +22,8 @@ namespace NoteLiveBackend.Room.Domain.Model.Entities;
         public Guid? ChatId { get; set; }
         public Chat Chat { get; set; }
         
-        private readonly List<User> _users = new List<User>();
-        public IReadOnlyList<User> Users => _users.AsReadOnly(); 
-        
+        public ICollection<User> Users { get; set; } = new List<User>();
+
         private readonly List<Question> _questions = new List<Question>();
         public IReadOnlyList<Question> Questions => _questions.AsReadOnly();
 
@@ -36,6 +36,7 @@ namespace NoteLiveBackend.Room.Domain.Model.Entities;
             Chat = new Chat();
             Creador = new User(creadorId);
         }
+
         public Room(string name, User creador)
         {
             Id = Guid.NewGuid();
@@ -46,6 +47,7 @@ namespace NoteLiveBackend.Room.Domain.Model.Entities;
             Chat = new Chat();
             Creador = creador;
         }
+
         public void UploadPDF(byte[] content)
         {
             if (PDF == null)
@@ -61,11 +63,9 @@ namespace NoteLiveBackend.Room.Domain.Model.Entities;
 
         public void ActualizarPDF(PDF content)
         {
-
             PDF = content;
-
         }
-      
+
         public void AskQuestion(Question question)
         {
             _questions.Add(question);
@@ -73,15 +73,15 @@ namespace NoteLiveBackend.Room.Domain.Model.Entities;
 
         public void AddUser(User user)
         {
-            if (!_users.Contains(user))
+            if (!Users.Any(u => u.Id == user.Id))
             {
-                _users.Add(user);
+                Users.Add(user);
             }
         }
 
         public void RemoveUser(User user)
         {
-            _users.Remove(user);
+            Users.Remove(user);
         }
 
         public void EndRoom()
@@ -92,8 +92,7 @@ namespace NoteLiveBackend.Room.Domain.Model.Entities;
 
         public void StartRoom()
         {
-            byte[] contentment = PDF.Content;
-            if (contentment!=null)
+            if (PDF?.Content != null)
             {
                 throw new InvalidOperationException("Room cannot be started again when a PDF is already uploaded.");
             }
@@ -103,6 +102,7 @@ namespace NoteLiveBackend.Room.Domain.Model.Entities;
 
         public byte[] GetPDFContent()
         {
-            return PDF.Content;
+            return PDF?.Content;
         }
     }
+    

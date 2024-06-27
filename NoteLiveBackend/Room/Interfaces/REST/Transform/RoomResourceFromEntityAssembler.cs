@@ -11,7 +11,6 @@ public static class RoomResourceFromEntityAssembler
             room.Name,
             room.CreadorId,
             room.Questions,
-            room.Creador,
             room.Users,
             room.PdfId,
             room.Chat);
