@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NoteLiveBackend.Room.Domain.Model.Commands;
 using NoteLiveBackend.Room.Domain.Services;
 using NoteLiveBackend.Room.Interfaces.REST.Resources;
 using NoteLiveBackend.Room.Interfaces.REST.Transform;
@@ -29,6 +30,13 @@ public class QuestionController : ControllerBase
 
         return CreatedAtAction(nameof(PostQuestion), new { questionId }, null);
     }
-
+    
+    [HttpPatch("likeQuestion/{id}")]
+    public async Task<IActionResult> LikeQuestion(Guid id)
+    {
+        var command = new LikeQuestionCommand(id);
+        await _questionCommandService.Handle(command);
+        return Ok();
+    }
 
 }

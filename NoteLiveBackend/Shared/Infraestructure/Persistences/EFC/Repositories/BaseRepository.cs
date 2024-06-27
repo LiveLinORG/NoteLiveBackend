@@ -17,6 +17,7 @@ public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where T
     public async Task AddAsync(TEntity entity)
     {
         await Context.Set<TEntity>().AddAsync(entity);
+        await Context.SaveChangesAsync();
     }
 
     public async Task<TEntity?> FindByIdAsync(Guid id)

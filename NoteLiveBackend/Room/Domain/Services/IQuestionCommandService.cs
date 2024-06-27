@@ -5,4 +5,6 @@ namespace NoteLiveBackend.Room.Domain.Services;
 public interface IQuestionCommandService
 {
     Task<Guid> Handle(CreateQuestionCommand command);
+    Task Handle(LikeQuestionCommand command);
+
 }
