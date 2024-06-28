@@ -39,7 +39,13 @@ public class QuestionController : ControllerBase
         await _questionCommandService.Handle(command);
         return Ok();
     }
-
+    [HttpPatch("answer/{id}")]
+    public async Task<IActionResult> AnswerQuestion([FromRoute] Guid id, [FromBody] string answer)
+    {
+        var command = new AnswerQuestionCommand(id,answer);
+        await _questionCommandService.Handle(command);
+        return Ok();
+    }
     [HttpGet("getQuestionsInRoom/{roomId}")]
     public async Task<IActionResult> GetQuestionsInRoom(Guid roomId)
     {

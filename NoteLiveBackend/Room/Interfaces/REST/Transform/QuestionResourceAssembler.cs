@@ -13,7 +13,8 @@ public static class QuestionResourceAssembler
             UserId = question.UserId,
             RoomId = question.RoomId,
             Text = question.Text,
-            Likes = question.Likes
+            Likes = question.Likes,
+            Answer = question.Answer
         };
     }
 }

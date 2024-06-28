@@ -47,4 +47,14 @@ public class QuestionCommandService : IQuestionCommandService
         question.Like();
         _questionRepository.UpdateAsync(question);
     }
+    public async Task Handle(AnswerQuestionCommand command)
+    {
+
+        var question = await _questionRepository.FindByIdAsync(command.id);
+        if (question != null)
+        {
+            question.Answer = command.answer;
+            await _questionRepository.UpdateAsync(question);
+        }
+    }
 }

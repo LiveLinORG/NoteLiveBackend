@@ -6,5 +6,6 @@ public interface IQuestionCommandService
 {
     Task<Guid> Handle(CreateQuestionCommand command);
     Task Handle(LikeQuestionCommand command);
+    Task Handle(AnswerQuestionCommand command); 
 
 }
