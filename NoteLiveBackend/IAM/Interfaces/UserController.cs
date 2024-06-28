@@ -40,6 +40,7 @@ public class UserController(IUserQueryServices userQueryServices, IUserCommandSe
         return Ok(userResource);
     }
     
+
     [HttpGet("getinformationbyusername/{username}")]
     public async Task<IActionResult> GetInformationByUserName(string username)
     {
@@ -68,5 +69,3 @@ public class UserController(IUserQueryServices userQueryServices, IUserCommandSe
         }
     }
     
-
-}

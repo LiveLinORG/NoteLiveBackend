@@ -21,6 +21,9 @@ public class QuestionQueryService(IQuestionRepository questionRepository, IUnitO
     {
         return await questionRepository.FindByIdAsync(query.QuestionId);
     }
-
+    public async Task<IEnumerable<Question>> Handle(GetQuestionsByRoomQuery query)
+    {
+        return await questionRepository.GetQuestionsByRoomId(query.RoomId);
+    }
 
 }

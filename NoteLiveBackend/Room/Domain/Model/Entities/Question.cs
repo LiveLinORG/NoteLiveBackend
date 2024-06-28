@@ -10,6 +10,8 @@ public class Question
     [NotMapped]
     public Guid RoomId { get; private set; } 
     public string Text { get; private set; }
+    public string? Answer { get; set; }
+
     public int Likes { get; private set; }
 
     public User User { get; set; } 
@@ -23,6 +25,7 @@ public class Question
         RoomId = roomId;
         Text = text;
         Likes = 0;
+        Answer = "No Answer";
     }
     private Question(){}
     public void Like()
