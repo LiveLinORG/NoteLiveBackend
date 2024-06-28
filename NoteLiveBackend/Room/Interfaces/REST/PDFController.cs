@@ -10,12 +10,24 @@ namespace NoteLiveBackend.Room.Interfaces.REST;
 public class PDFController : ControllerBase
 {
     private readonly IPDFQueryService _pdfQueryService;
-
+    
+    /**
+     * <summary>
+     *  Initializes a new instance of the "PDFController" class.
+     * </summary>
+     */
     public PDFController(IPDFQueryService pdfQueryService)
     {
         _pdfQueryService = pdfQueryService;
     }
-
+    
+    /**
+     * <summary>
+     *  Gets a PDF with associated questions by room ID.
+     * </summary>
+     * <param name="roomId">The unique identifier of the room.</param>
+     * <returns>A task</returns>
+     */
     [HttpGet("{roomId:guid}")]
     public async Task<IActionResult> GetPDFWithQuestionsByRoomId([FromRoute] Guid roomId)
     {
@@ -26,6 +38,14 @@ public class PDFController : ControllerBase
         var resource = PDFWithQuestionsResourceAssembler.ToResourceFromEntity(result);
         return Ok(resource);
     }
+    
+    /**
+     * <summary>
+     *  Gets a PDF by its identifier.
+     * </summary>
+     * <param name="pdfId">The unique identifier of the PDF.</param>
+     * <returns>A task</returns>
+     */
     [HttpGet("getbyid/{pdfId:guid}")]
     public async Task<IActionResult> GetPDFById([FromRoute] Guid pdfId)
     {

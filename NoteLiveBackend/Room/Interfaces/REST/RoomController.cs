@@ -11,6 +11,13 @@ namespace NoteLiveBackend.Room.Interfaces.REST;
 [Route("api/v1/[controller]")]
 public class RoomController(IRoomCommandService roomCommandService,IRoomQueryService roomQueryServices) : ControllerBase
 {
+    /**
+     * <summary>
+     *  Creates a new room.
+     * </summary>
+     * <param name="createRoomResource">The resource containing the details of the room to be created.</param>
+     * <returns>A task</returns>
+     */
     [HttpPost]
     public async Task<IActionResult> CreateRoom([FromBody] CreateRoomResource createRoomResource)
     {
@@ -20,7 +27,14 @@ public class RoomController(IRoomCommandService roomCommandService,IRoomQuerySer
         var resource = RoomResourceFromEntityAssembler.ToResourceFromEntity(room);
         return CreatedAtAction(nameof(GetRoomById), new { roomId = resource.id }, resource);
     }
-
+    
+    /**
+     * <summary>
+     *  Gets a room by its identifier.
+     * </summary>
+     * <param name="roomId">The id of the room.</param>
+     * <returns>A task</returns>
+     */
     [HttpGet("{roomId:guid}")]
     public async Task<IActionResult> GetRoomById([FromRoute]Guid roomId)
     {
@@ -30,6 +44,12 @@ public class RoomController(IRoomCommandService roomCommandService,IRoomQuerySer
         return Ok(resource);
     }
     
+    /**
+     * <summary>
+     *  Gets all rooms
+     * </summary>
+     * <returns>A task</returns>
+     */
     [HttpGet]
     public async Task<IActionResult> GetAllRooms()
     {
@@ -40,6 +60,13 @@ public class RoomController(IRoomCommandService roomCommandService,IRoomQuerySer
         return Ok(resources);
     }
 
+    /**
+     * <summary>
+     *  Adds a user to a room.
+     * </summary>
+     * <param name="addUserToRoomResource">he resource containing the details of the user to be added to the room.</param>
+     * <returns>A task</returns>
+     */
     [HttpPost("{userId:guid}")]
     public async Task<IActionResult> AddUserToRoom([FromBody] AddUserToRoomResource addUserToRoomResource, [FromRoute] Guid userId)
     {
@@ -48,7 +75,14 @@ public class RoomController(IRoomCommandService roomCommandService,IRoomQuerySer
         var room = await roomCommandService.Handle(addUserToRoomCommand);
         return Ok(room);
     }
-
+    
+    /**
+     * <summary>
+     *  Ends a room session.
+     * </summary>
+     * <param name="roomId">The id of da room.</param>
+     * <returns>A task</returns>
+     */
     [HttpPut("{roomId:guid}")]
     public async Task<IActionResult> EndRoomSession([FromRoute] Guid roomId)
     {
@@ -57,6 +91,14 @@ public class RoomController(IRoomCommandService roomCommandService,IRoomQuerySer
         return Ok(room);
     }
     
+    /**
+     * <summary>
+     *  Uploads a PDF to a room.
+     * </summary>
+     * <param name="roomId">The id of da room.</param>
+     * <param name="Content">The PDF file to be uploaded.</param>
+     * <returns>A task</returns>
+     */
     [HttpPut("upload-pdf/{roomId:guid}")]
     public async Task<IActionResult> UploadPDFtoRoom([FromRoute] Guid roomId, [FromForm] IFormFile Content)
     {
@@ -78,6 +120,13 @@ public class RoomController(IRoomCommandService roomCommandService,IRoomQuerySer
         
     }
     
+    /**
+     * <summary>
+     *  Gets a room by its name.
+     * </summary>
+     * <param name="roomName">The name of the room.</param>
+     * <returns>A task</returns>
+     */
     [HttpGet("byname/{roomName}")]
     public async Task<IActionResult> GetRoomByName([FromRoute] string roomName)
     {
@@ -88,8 +137,13 @@ public class RoomController(IRoomCommandService roomCommandService,IRoomQuerySer
         return Ok(resource);
     }
 
-    // Otros métodos del controlador
-
+    /**
+     * <summary>
+     *  Gets users by room identifier.
+     * </summary>
+     * <param name="roomId">The id of da room</param>
+     * <returns>A task</returns>
+     */
     [HttpGet("{roomId:guid}/users")]
     public async Task<IActionResult> GetUsersByRoomId([FromRoute] Guid roomId)
     {

@@ -12,7 +12,14 @@ public class QuestionController : ControllerBase
 {
     private readonly IQuestionQueryService _questionQueryService;
     private readonly IQuestionCommandService _questionCommandService;
-
+    
+    /**
+     * <summary>
+     *  Initializes a new instance of the "QuestionController" class.
+     * </summary>
+     * <param name="questionQueryService">The service for handling question queries.</param>
+     * <param name="questionCommandService">The service for handling question commands.</param>
+     */
     public QuestionController(IQuestionQueryService questionQueryService,IQuestionCommandService questionCommandService)
     {
         _questionQueryService = questionQueryService;
@@ -21,7 +28,13 @@ public class QuestionController : ControllerBase
     }
 
     
-    //RECIBE public record CreateQuestionResource(Guid UserId, Guid RoomId, string Text);
+    /**
+     * <summary>
+     *  Posts a new question.
+     * </summary>
+     * <param name="createQuestionResource">The resource containing the details of the question to be created.</param>
+     * <returns>A task</returns>
+     */
     [HttpPost("postQuestion")]
     public async Task<IActionResult> PostQuestion([FromBody] CreateQuestionResource createQuestionResource)
     {
@@ -31,6 +44,13 @@ public class QuestionController : ControllerBase
         return CreatedAtAction(nameof(PostQuestion), new { questionId }, null);
     }
     
+    /**
+     * <summary>
+     *  Likes a question by its identifier.
+     * </summary>
+     * <param name="id">The id of the question.</param>
+     * <returns>A task</returns>
+     */
     [HttpPatch("likeQuestion/{id}")]
     public async Task<IActionResult> LikeQuestion(Guid id)
     {

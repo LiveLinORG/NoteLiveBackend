@@ -14,7 +14,14 @@ public class ChatRepository : IChatRepository
     {
         _context = context;
     }
-  
+    
+    /**
+     * <summary>
+     *  Get a chat by id
+     * </summary>
+     * <param name="roomId">The id of the room associated with the chat</param>
+     * <returns>The chat</returns>
+     */
     public async Task<Chat?> GetByRoomId(Guid roomId)
     {
         return _context.Chats.FirstOrDefault(c => c.Id == roomId);
@@ -24,13 +31,20 @@ public class ChatRepository : IChatRepository
     {
         throw new NotImplementedException();
     }
-
+    
+    /**
+     * <summary>
+     *  Update the chat
+     * </summary>
+     * <param name="chat">The chat to update</param>
+     */
     public void Update(Chat? chat)
     {
         _context.Chats.Update(chat);
         _context.SaveChanges();
     }
-    // Implementación vacía o de excepción para métodos no utilizados
+    
+
     public Task AddAsync(Chat entity)
     {
         throw new NotImplementedException("AddAsync method is not implemented in ChatRepository.");
