@@ -40,12 +40,19 @@ public class QuestionController : ControllerBase
         return Ok();
     }
     [HttpPatch("answer/{id}")]
-    public async Task<IActionResult> AnswerQuestion([FromRoute] Guid id, [FromBody] string answer)
+    public async Task<IActionResult> AnswerQuestion([FromRoute] Guid id, [FromBody] AnswerQuestionDto answerDto)
     {
-        var command = new AnswerQuestionCommand(id,answer);
+        if (answerDto == null || string.IsNullOrEmpty(answerDto.Answer))
+        {
+            return BadRequest("Answer is required.");
+        }
+
+        var command = new AnswerQuestionCommand(id, answerDto.Answer);
         await _questionCommandService.Handle(command);
         return Ok();
     }
+
+
     [HttpGet("getQuestionsInRoom/{roomId}")]
     public async Task<IActionResult> GetQuestionsInRoom(Guid roomId)
     {
@@ -61,5 +68,5 @@ public class QuestionController : ControllerBase
 
         return Ok(resources);
     }
-
+    
 }
