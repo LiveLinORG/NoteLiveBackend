@@ -37,4 +37,9 @@ public class UserController(IUserQueryServices userQueryServices) : ControllerBa
         var userResource = UserResourceFromEntityAssembler.ToResourceFromEntity(user);
         return Ok(userResource);
     }
+    
+
+
+    
+    
 }

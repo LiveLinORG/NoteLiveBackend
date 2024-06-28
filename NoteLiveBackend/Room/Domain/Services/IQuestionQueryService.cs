@@ -8,4 +8,6 @@ public interface IQuestionQueryService
 {
     Task<IEnumerable<Question>> Handle(GetQuestionsByRoomIdQuery query);
     Task<Question?> Handle(GetQuestionByIdQuery query);
+
+    Task<IEnumerable<Question>> Handle(GetQuestionsByRoomQuery query);
 }
