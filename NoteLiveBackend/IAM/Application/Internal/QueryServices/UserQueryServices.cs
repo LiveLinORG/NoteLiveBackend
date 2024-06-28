@@ -8,6 +8,7 @@ namespace NoteLiveBackend.IAM.Application.Internal.QueryServices;
 public class UserQueryService : IUserQueryServices
 {
     private readonly IUserRepository _userRepository;
+    
 
     public UserQueryService(IUserRepository userRepository)
     {
@@ -29,6 +30,11 @@ public class UserQueryService : IUserQueryServices
     public async Task<IEnumerable<User>> Handle(GetAllUsersQuery query)
     {
         return await _userRepository.GetAllAsync();
+    }
+
+    public async Task<User?> Handle(GetUserInformationByUsernameQuery query)
+    {
+        return await _userRepository.FindByUsernameAsync(query.username);
     }
 
 

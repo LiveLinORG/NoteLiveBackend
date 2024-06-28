@@ -1,7 +1,9 @@
 ﻿using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
+using NoteLiveBackend.IAM.Domain.Model.Aggregates;
 using NoteLiveBackend.IAM.Domain.Model.Queries;
 using NoteLiveBackend.IAM.Domain.Services;
+using NoteLiveBackend.IAM.Interfaces.Resources;
 using NoteLiveBackend.IAM.Interfaces.Transform;
 
 namespace NoteLiveBackend.IAM.Interfaces;
@@ -9,7 +11,7 @@ namespace NoteLiveBackend.IAM.Interfaces;
 [ApiController]
 [Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
-public class UserController(IUserQueryServices userQueryServices) : ControllerBase
+public class UserController(IUserQueryServices userQueryServices, IUserCommandService userCommandService) : ControllerBase
 {
     [HttpGet]
     public async Task<IActionResult> GetAllUsers()
@@ -37,4 +39,34 @@ public class UserController(IUserQueryServices userQueryServices) : ControllerBa
         var userResource = UserResourceFromEntityAssembler.ToResourceFromEntity(user);
         return Ok(userResource);
     }
+    
+    [HttpGet("getinformationbyusername/{username}")]
+    public async Task<IActionResult> GetInformationByUserName(string username)
+    {
+        var getUserByIdQuery = new GetUserByNameQuery(username);
+        var user = await userQueryServices.Handle(getUserByIdQuery);
+        var userResource = UserInformationResourceFromEntityAssembler.ToResourceFromEntity(user);
+        return Ok(userResource);
+    }
+    
+    [HttpPut("{username}")]
+    public async Task<IActionResult> UpdateUser(string username, [FromBody] User user)
+    {
+        if (username != user.Username)
+        {
+            return BadRequest("User ID mismatch");
+        }
+
+        try
+        {
+            await userCommandService.UpdateUser(user);
+            return NoContent(); // 204 No Content
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message); // O maneja el error de otra manera según tu lógica de negocio
+        }
+    }
+    
+
 }

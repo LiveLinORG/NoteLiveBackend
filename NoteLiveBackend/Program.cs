@@ -15,6 +15,7 @@ using NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Repositories;
 using NoteLiveBackend.IAM.Infrastructure.Tokens.JWT.Services; 
 using NoteLiveBackend.IAM.Application.Internal.OutboundServices;
 using NoteLiveBackend.IAM.Infrastructure.Hashing.BCrypt.Services;
+using NoteLiveBackend.IAM.Infrastructure.Tokens.JWT.Configuration;
 using NoteLiveBackend.Room.Application.Internal.CommandServices;
 using NoteLiveBackend.Room.Application.Internal.Queryservices;
 using NoteLiveBackend.Room.Domain.Repositories;
@@ -137,6 +138,8 @@ builder.Services.AddScoped<IRoomQueryService, RoomQueryService>();
 
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IHashingService, HashingService>();
+builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));
+
 
 // Register additional repositories and services here
 

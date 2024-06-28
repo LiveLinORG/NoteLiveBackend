@@ -3,6 +3,7 @@ using NoteLiveBackend.IAM.Domain.Model.Aggregates;
 using NoteLiveBackend.IAM.Domain.Model.Commands;
 using NoteLiveBackend.IAM.Domain.Repositories;
 using NoteLiveBackend.IAM.Domain.Services;
+using NoteLiveBackend.IAM.Interfaces.Resources;
 using NoteLiveBackend.Shared.Domain.Repositories;
 namespace NoteLiveBackend.IAM.Application.Internal.CommandServices;
 
@@ -23,9 +24,16 @@ public class UserCommandService : IUserCommandService
 
         public async Task<(User user, string token)> Handle(SignInCommand command)
         {
+            if (command == null || string.IsNullOrEmpty(command.username) || string.IsNullOrEmpty(command.password))
+            {
+                throw new ArgumentException("Invalid username or password.");
+            }
+
             var user = await _userRepository.FindByUsernameAsync(command.username);
             if (user == null || !_hashingService.VerifyPassword(command.password, user.PasswordHash))
-                throw new Exception("Invalid credentials");
+            {
+                throw new Exception("Invalid credentials.");
+            }
 
             var token = _tokenService.GenerateToken(user);
             return (user, token);
@@ -51,4 +59,26 @@ public class UserCommandService : IUserCommandService
                 throw new Exception($"An error occurred while creating user: {e.Message}");
             }
         }
+
+      
+
+        public async Task UpdateUser(User user)
+        {
+            var existingUser = await _userRepository.FindByUsernameAsync(user.Username);
+            if (existingUser == null)
+            {
+                throw new Exception("User not found");
+            }
+
+            existingUser.Username = user.Username;
+            existingUser.FirstName = user.FirstName;
+            existingUser.LastName = user.LastName;
+            existingUser.Email = user.Email;
+            existingUser.Role = user.Role;
+            // Actualiza otros campos
+
+            await _userRepository.UpdateAsync(existingUser);
+        }
+        
+      
     }

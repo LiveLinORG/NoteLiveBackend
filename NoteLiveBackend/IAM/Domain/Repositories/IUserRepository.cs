@@ -9,4 +9,7 @@ public interface IUserRepository : IBaseRepository<User>
     bool ExistsByUsername(string username);
     Task<IEnumerable<User>> GetAllAsync();
     Task<User?> GetByIdAsync(Guid id);
+    
+    Task UpdateAsync(User user);
+
 }

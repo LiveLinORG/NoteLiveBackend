@@ -24,21 +24,21 @@ namespace NoteLiveBackend.IAM.Domain.Model.Aggregates
             Id = id;
         }
 
-        public Guid Id { get; private set; }
+        public Guid Id { get; set; }
 
 
 
-        public string Username { get; private set; } = username;
+        public string Username { get; set; } = username;
 
-        [JsonIgnore] public string PasswordHash { get; private set; } = passwordHash;
+        [JsonIgnore] public string PasswordHash { get; set; } = passwordHash;
 
-        public string FirstName { get; private set; } = firstName;
+        public string FirstName { get; set; } = firstName;
 
-        public string LastName { get; private set; } = lastName;
+        public string LastName { get; set; } = lastName;
 
-        public string Email { get; private set; } = email;
+        public string Email { get; set; } = email;
 
-        public string Role { get; private set; } = role;
+        public string Role { get; set; } = role;
 
         // Propiedades de navegación para la relación con Rooms y Questions
 

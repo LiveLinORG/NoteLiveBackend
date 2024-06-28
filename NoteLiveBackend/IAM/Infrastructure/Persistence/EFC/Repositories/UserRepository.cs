@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NoteLiveBackend.IAM.Domain.Model.Aggregates;
 using NoteLiveBackend.IAM.Domain.Repositories;
+using NoteLiveBackend.IAM.Interfaces.Resources;
 using NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Configuration;
 using NoteLiveBackend.Shared.Infraestructure.Persistences.EFC.Repositories;
 
@@ -31,7 +32,16 @@ public class UserRepository : BaseRepository<User>, IUserRepository
     {
         return await Context.Set<User>().FindAsync(userId);
     }
-    
+
+  
+
+    public async Task UpdateAsync(User user)
+    {
+        Context.Set<User>().Update(user);
+        await Context.SaveChangesAsync();
+    }
+   
+   
 
 
 
