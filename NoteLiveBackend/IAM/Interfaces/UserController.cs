@@ -11,7 +11,8 @@ namespace NoteLiveBackend.IAM.Interfaces;
 [ApiController]
 [Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
-public class UserController(IUserQueryServices userQueryServices, IUserCommandService userCommandService) : ControllerBase
+public class UserController(IUserQueryServices userQueryServices, IUserCommandService userCommandService)
+    : ControllerBase
 {
     [HttpGet]
     public async Task<IActionResult> GetAllUsers()
@@ -30,7 +31,7 @@ public class UserController(IUserQueryServices userQueryServices, IUserCommandSe
         var userResource = UserResourceFromEntityAssembler.ToResourceFromEntity(user);
         return Ok(userResource);
     }
-    
+
     [HttpGet("getbyusername/{username}")]
     public async Task<IActionResult> GetUserByUsername(string username)
     {
@@ -39,7 +40,7 @@ public class UserController(IUserQueryServices userQueryServices, IUserCommandSe
         var userResource = UserResourceFromEntityAssembler.ToResourceFromEntity(user);
         return Ok(userResource);
     }
-    
+
 
     [HttpGet("getinformationbyusername/{username}")]
     public async Task<IActionResult> GetInformationByUserName(string username)
@@ -49,7 +50,7 @@ public class UserController(IUserQueryServices userQueryServices, IUserCommandSe
         var userResource = UserInformationResourceFromEntityAssembler.ToResourceFromEntity(user);
         return Ok(userResource);
     }
-    
+
     [HttpPut("{username}")]
     public async Task<IActionResult> UpdateUser(string username, [FromBody] User user)
     {
@@ -68,4 +69,5 @@ public class UserController(IUserQueryServices userQueryServices, IUserCommandSe
             return StatusCode(500, ex.Message); // O maneja el error de otra manera según tu lógica de negocio
         }
     }
+}
     
