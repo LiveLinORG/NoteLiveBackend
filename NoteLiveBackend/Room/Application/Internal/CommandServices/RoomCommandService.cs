@@ -70,6 +70,17 @@ public class RoomCommandService(
         await unitOfWork.CompleteAsync();
         return room;
     }
+    public async Task<Domain.Model.Entities.Room?> Handle(StartRoomCommand command)
+    {
+        var room = await _roomRepository.FindByIdAsync(command.RoomId);
+        if (room == null)
+            throw new Exception("Room not found");
+
+        room.StartRoom();
+        await _roomRepository.UpdateAsync(room);
+        await unitOfWork.CompleteAsync();
+        return room;
+    }
     public async Task<bool> Handle(CheckIfActivatedCommand command)
     {
         var room = await _roomRepository.FindByIdAsync(command.RoomId);

@@ -86,17 +86,20 @@ namespace NoteLiveBackend.Room.Domain.Model.Entities;
 
         public void EndRoom()
         {
-            Roomstarted = false;
+            Roomstarted = true;
             Chat.isActivated = false;
         }
 
         public void StartRoom()
         {
-            if (PDF?.Content != null)
+            Roomstarted = false;
+            /*
+                if (Chat.isActivated)
             {
-                throw new InvalidOperationException("Room cannot be started again when a PDF is already uploaded.");
+                throw new InvalidOperationException("Room cannot be started again");
+
             }
-            Roomstarted = true;
+             */
             Chat.isActivated = true;
         }
 

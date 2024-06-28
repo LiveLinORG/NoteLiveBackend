@@ -49,14 +49,20 @@ public class RoomController(IRoomCommandService roomCommandService,IRoomQuerySer
         return Ok(room);
     }
 
-    [HttpPut("{roomId:guid}")]
+    [HttpPut("end/{roomId:guid}")]
     public async Task<IActionResult> EndRoomSession([FromRoute] Guid roomId)
     {
         var endRoomCommand = new EndRoomCommand(roomId);
         var room = await roomCommandService.Handle(endRoomCommand);
         return Ok(room);
     }
-    
+    [HttpPut("start/{roomId:guid}")]
+    public async Task<IActionResult> StartRoomSession([FromRoute] Guid roomId)
+    {
+        var startRoomCommand = new StartRoomCommand(roomId);
+        var room = await roomCommandService.Handle(startRoomCommand);
+        return Ok(room);
+    }
     [HttpPut("upload-pdf/{roomId:guid}")]
     public async Task<IActionResult> UploadPDFtoRoom([FromRoute] Guid roomId, [FromForm] IFormFile Content)
     {

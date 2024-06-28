@@ -15,6 +15,7 @@ public interface IRoomCommandService
     Task<Model.Entities.Room?> Handle(AddUserToRoomCommand command);
     //falta incorporar
     Task<Model.Entities.Room?> Handle(EndRoomCommand command);
+    Task<Domain.Model.Entities.Room?> Handle(StartRoomCommand command);
 
 
 }

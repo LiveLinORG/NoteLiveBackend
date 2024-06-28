@@ -10,4 +10,5 @@ public record RoomResource(
     IReadOnlyList<Question> Questions,
     ICollection<User> UserIds,
     Guid? pdfId,
-    Chat Chat);
+    Chat Chat,
+    bool roomstarted);
