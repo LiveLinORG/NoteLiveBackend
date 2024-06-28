@@ -7,12 +7,24 @@ using NoteLiveBackend.Shared.Domain.Repositories;
 namespace NoteLiveBackend.IAM.Application.Internal.CommandServices;
 
 public class UserCommandService : IUserCommandService
-    {
+    {   
+        /**
+         * This class is responsible for handling user commands
+         */
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ITokenService _tokenService;
         private readonly IHashingService _hashingService; 
-
+        
+        /**
+         * <summary>
+         *  Initializes a new instance
+         * </summary>
+         * <param name="userRepository">The users repository</param>
+         * <param name="unitOfWork">The unit of work</param>
+         * <param name="tokenService">The token service</param>
+         * <param name="hashingService">The hashing service</param>
+         */
         public UserCommandService(IUserRepository userRepository, IUnitOfWork unitOfWork, ITokenService tokenService, IHashingService hashingService)
         {
             _userRepository = userRepository;
@@ -20,7 +32,14 @@ public class UserCommandService : IUserCommandService
             _tokenService = tokenService;
             _hashingService = hashingService; 
         }
-
+        
+        /**
+         * <summary>
+         *  Handles the "SignInCommand" to auth users
+         * </summary>
+         * <param name="command">The signIn command containing username and password</param>
+         * <returns>The user and token authenticated</returns>
+         */
         public async Task<(User user, string token)> Handle(SignInCommand command)
         {
             var user = await _userRepository.FindByUsernameAsync(command.username);
@@ -30,10 +49,17 @@ public class UserCommandService : IUserCommandService
             var token = _tokenService.GenerateToken(user);
             return (user, token);
         }
-
+        
+        /**
+         * <summary>
+         *  Handles the "SignUpCommand" to register new users
+         * </summary>
+         * <param name="command">The signUp command containing username</param>
+         * <returns>A task</returns>
+         */
         public async Task Handle(SignUpCommand command)
         {
-            command.Validate(); // Validar los datos del comando SignUpCommand
+            command.Validate();
             if (_userRepository.ExistsByUsername(command.Username))
                 throw new Exception($"Username {command.Username} is already taken");
 

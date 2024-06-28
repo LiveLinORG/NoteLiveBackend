@@ -11,6 +11,12 @@ namespace NoteLiveBackend.IAM.Interfaces;
 [Produces(MediaTypeNames.Application.Json)]
 public class UserController(IUserQueryServices userQueryServices) : ControllerBase
 {
+    /**
+     * <summary>
+     *  Get all the users
+     * </summary>
+     * <returns>All the users</returns>
+     */
     [HttpGet]
     public async Task<IActionResult> GetAllUsers()
     {
@@ -19,7 +25,14 @@ public class UserController(IUserQueryServices userQueryServices) : ControllerBa
         var userResources = users.Select(UserResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(userResources);
     }
-
+    
+    /**
+     * <summary>
+     *  Get a user by Id
+     * </summary>
+     * <param name="id">The id of the user to get</param>
+     * <returns>The user</returns>
+     */
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUserById(Guid id)
     {
@@ -29,6 +42,13 @@ public class UserController(IUserQueryServices userQueryServices) : ControllerBa
         return Ok(userResource);
     }
     
+    /**
+     * <summary>
+     *  Get a user by username
+     * </summary>
+     * <param name="username">The username of the user to get</param>
+     * <returns>The user</returns>
+     */
     [HttpGet("getbyusername/{username}")]
     public async Task<IActionResult> GetUserByUsername(string username)
     {

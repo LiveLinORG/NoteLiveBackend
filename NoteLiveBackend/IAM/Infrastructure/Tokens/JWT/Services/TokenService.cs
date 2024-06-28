@@ -10,10 +10,25 @@ using NoteLiveBackend.IAM.Infrastructure.Tokens.JWT.Configuration;
 
 namespace NoteLiveBackend.IAM.Infrastructure.Tokens.JWT.Services;
 
+/**
+ * <summary>
+ *     The token service
+ * </summary>
+ * <remarks>
+ *     This class is used to generate and validate tokens
+ * </remarks>
+ */
 public class TokenService(IOptions<TokenSettings> tokenSettings) : ITokenService
 {
     private readonly TokenSettings _tokenSettings = tokenSettings.Value;
     
+    /**
+     * <summary>
+     * Generate token
+     * </summary>
+     * <param name="user">The user for token generation</param>
+     * <returns>The generate token</returns>
+     */
     public string GenerateToken(User user)
     {
         var secret = _tokenSettings.Secret;
@@ -35,11 +50,18 @@ public class TokenService(IOptions<TokenSettings> tokenSettings) : ITokenService
         return token;
     }
 
+    /**
+     * <summary>
+     *  Verify token
+     * </summary>
+     * <param name="token">The token to validate</param>
+     * <returns>The user id if the token is valid, null otherwise</returns>
+     */
     public async Task<int?> ValidateToken(string token)
     {
         // If token is null or empty
         if (string.IsNullOrEmpty(token)) return null;
-
+        // Otherwise, perform validation
         var tokenHandler = new JsonWebTokenHandler();
         var key = Encoding.ASCII.GetBytes(_tokenSettings.Secret);
         try
@@ -51,6 +73,7 @@ public class TokenService(IOptions<TokenSettings> tokenSettings) : ITokenService
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false,
+                    // Expiration without delay
                     ClockSkew = TimeSpan.Zero
                 });
             var jwtToken = (JsonWebToken)tokenValidationResult.SecurityToken;

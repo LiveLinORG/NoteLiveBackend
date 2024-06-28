@@ -7,6 +7,13 @@ namespace NoteLiveBackend.IAM.Interfaces;
 
 public class AuthenticationController(IUserCommandService userCommandService) : ControllerBase
 {
+    /**
+     * <summary>
+     *  Endpoint for user sign in
+     * </summary>
+     * <param name="signInResource">The signIn credentials</param>
+     * <returns>The authenticated user</returns>
+     */
     [HttpPost("sign-in")]
     public async Task<IActionResult> SignIn([FromBody] SignInResource signInResource)
     {
@@ -17,7 +24,14 @@ public class AuthenticationController(IUserCommandService userCommandService) : 
                 authenticatedUser.token);
         return Ok(resource);
     }
-
+    
+    /**
+     * <summary>
+     *  Endpoint for user sign up
+     * </summary>
+     * <param name="signUpResource">The signUp credential</param>
+     * <returns>The authenticated user</returns>
+     */
     [HttpPost("sign-up")]
     public async Task<IActionResult> SignUp([FromBody] SignUpResource signUpResource)
     {
