@@ -100,8 +100,22 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(corsPolicyBuilder =>
     {
-        corsPolicyBuilder.WithOrigins("http://localhost:8080", "http://190.239.59.168:44353", "http://190.239.59.168:8080","http://192.168.1.34:8080/professorSession"
-                ,"http://190.239.59.168:8080","http://localhost:8080/studentSession")
+        corsPolicyBuilder.WithOrigins(
+                "http://localhost:8080", 
+                "http://190.239.59.168:44353", 
+                "http://190.239.59.168:8080",
+                "http://192.168.1.34:8080/professorSession",
+                "http://190.239.59.168:8080",
+                "http://localhost:8080/studentSession",
+                "https://upcproyects.duckdns.org:8080",
+                "http://190.239.59.168:54807",
+                "http://localhost:8081",
+                "http://190.239.59.168:8081",
+                "http://192.168.1.34:8081/professorSession",
+                "http://localhost:8081/studentSession",
+                "https://upcproyects.duckdns.org:8081",
+                "http://190.239.59.168:54807"
+            )
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
